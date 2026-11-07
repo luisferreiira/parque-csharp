@@ -1,0 +1,10 @@
+.vs/
+bin/
+obj/
+*.user
+*.suo
+.env
+.env.*
+
+# Exportação local com dados
+/sql-parque-c-sharp.sql
