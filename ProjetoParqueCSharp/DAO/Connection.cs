@@ -10,7 +10,7 @@ namespace ProjetoParqueCSharp.DAO
         private readonly string stringConexao =
             "Server=localhost;" +
             "Port=3307;" +
-            "Database=luis_parque;" +
+            "Database=projeto_parque;" +
             "Uid=root;" +
             "Pwd=1234;";
 
@@ -75,7 +75,7 @@ namespace ProjetoParqueCSharp.DAO
 
         public DataTable ListarBrinquedos()
         {
-            return ExecutarConsulta("p_listarBrinquedo");
+            return ExecutarConsulta("p_listarBrinquedos");
         }
 
         public DataTable ListarIngressosBrinquedos()

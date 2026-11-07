@@ -14,12 +14,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Copiando estrutura do banco de dados para projeto_parque
+DROP DATABASE IF EXISTS `projeto_parque`;
+CREATE DATABASE IF NOT EXISTS `projeto_parque` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `projeto_parque`;
 
--- Copiando estrutura do banco de dados para luis_parque
-CREATE DATABASE IF NOT EXISTS `luis_parque` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `luis_parque`;
-
--- Copiando estrutura para tabela luis_parque.auditoria
+-- Copiando estrutura para tabela projeto_parque.auditoria
+DROP TABLE IF EXISTS `auditoria`;
 CREATE TABLE IF NOT EXISTS `auditoria` (
   `codAuditoria` int NOT NULL AUTO_INCREMENT,
   `acao` varchar(600) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
@@ -29,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `auditoria` (
   PRIMARY KEY (`codAuditoria`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.brinquedo
+-- Copiando estrutura para tabela projeto_parque.brinquedo
+DROP TABLE IF EXISTS `brinquedo`;
 CREATE TABLE IF NOT EXISTS `brinquedo` (
   `codBrinquedo` int NOT NULL AUTO_INCREMENT,
   `nomeBrinquedo` varchar(500) NOT NULL,
@@ -42,8 +43,8 @@ CREATE TABLE IF NOT EXISTS `brinquedo` (
   PRIMARY KEY (`codBrinquedo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.cargo
+-- Copiando estrutura para tabela projeto_parque.cargo
+DROP TABLE IF EXISTS `cargo`;
 CREATE TABLE IF NOT EXISTS `cargo` (
   `codCargo` int NOT NULL AUTO_INCREMENT,
   `nomeCargo` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -53,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `cargo` (
   PRIMARY KEY (`codCargo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.categoria
+-- Copiando estrutura para tabela projeto_parque.categoria
+DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE IF NOT EXISTS `categoria` (
   `codCategoria` int NOT NULL AUTO_INCREMENT,
   `nomeCategoria` varchar(450) NOT NULL,
@@ -62,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`codCategoria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.compra
+-- Copiando estrutura para tabela projeto_parque.compra
+DROP TABLE IF EXISTS `compra`;
 CREATE TABLE IF NOT EXISTS `compra` (
   `codCompra` int NOT NULL AUTO_INCREMENT,
   `tipoPagamento` varchar(45) NOT NULL,
@@ -77,8 +78,8 @@ CREATE TABLE IF NOT EXISTS `compra` (
   CONSTRAINT `fk_compra_visitante1` FOREIGN KEY (`visitante_codVisitante`) REFERENCES `visitante` (`codVisitante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.compra_ingressobrinquedos
+-- Copiando estrutura para tabela projeto_parque.compra_ingressobrinquedos
+DROP TABLE IF EXISTS `compra_ingressobrinquedos`;
 CREATE TABLE IF NOT EXISTS `compra_ingressobrinquedos` (
   `codCompraBrinquedos` int NOT NULL AUTO_INCREMENT,
   `compra_codCompra` int NOT NULL,
@@ -91,8 +92,8 @@ CREATE TABLE IF NOT EXISTS `compra_ingressobrinquedos` (
   CONSTRAINT `fk_compra_has_ingressoBrinquedos_ingressoBrinquedos1` FOREIGN KEY (`ingressoBrinquedos_codIngresso`) REFERENCES `ingressobrinquedos` (`codIngresso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.compra_ingressoeventos
+-- Copiando estrutura para tabela projeto_parque.compra_ingressoeventos
+DROP TABLE IF EXISTS `compra_ingressoeventos`;
 CREATE TABLE IF NOT EXISTS `compra_ingressoeventos` (
   `codCompraEventos` int NOT NULL AUTO_INCREMENT,
   `compra_codCompra` int NOT NULL,
@@ -105,8 +106,8 @@ CREATE TABLE IF NOT EXISTS `compra_ingressoeventos` (
   CONSTRAINT `fk_compra_has_ingressoEventos_ingressoEventos1` FOREIGN KEY (`ingressoEventos_codIngresso`) REFERENCES `ingressoeventos` (`codIngresso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.compraslanche
+-- Copiando estrutura para tabela projeto_parque.compraslanche
+DROP TABLE IF EXISTS `compraslanche`;
 CREATE TABLE IF NOT EXISTS `compraslanche` (
   `codCompraLanche` int NOT NULL AUTO_INCREMENT,
   `compra_codCompra` int NOT NULL,
@@ -119,8 +120,8 @@ CREATE TABLE IF NOT EXISTS `compraslanche` (
   CONSTRAINT `fk_compra_has_lanche_lanche1` FOREIGN KEY (`lanche_codLanche`) REFERENCES `lanche` (`codLanche`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.eventos
+-- Copiando estrutura para tabela projeto_parque.eventos
+DROP TABLE IF EXISTS `eventos`;
 CREATE TABLE IF NOT EXISTS `eventos` (
   `codEventos` int NOT NULL AUTO_INCREMENT,
   `nomeEvento` varchar(45) NOT NULL,
@@ -132,8 +133,8 @@ CREATE TABLE IF NOT EXISTS `eventos` (
   PRIMARY KEY (`codEventos`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.funcionario
+-- Copiando estrutura para tabela projeto_parque.funcionario
+DROP TABLE IF EXISTS `funcionario`;
 CREATE TABLE IF NOT EXISTS `funcionario` (
   `codFuncionario` int NOT NULL AUTO_INCREMENT,
   `nomeFuncionario` varchar(450) NOT NULL,
@@ -150,8 +151,8 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
   CONSTRAINT `fk_funcionario_cargo` FOREIGN KEY (`cargo_codCargo`) REFERENCES `cargo` (`codCargo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.ingressobrinquedos
+-- Copiando estrutura para tabela projeto_parque.ingressobrinquedos
+DROP TABLE IF EXISTS `ingressobrinquedos`;
 CREATE TABLE IF NOT EXISTS `ingressobrinquedos` (
   `codIngresso` int NOT NULL AUTO_INCREMENT,
   `tipoIngresso` varchar(45) NOT NULL,
@@ -163,8 +164,8 @@ CREATE TABLE IF NOT EXISTS `ingressobrinquedos` (
   CONSTRAINT `fk_ingressoBrinquedos_brinquedo1` FOREIGN KEY (`brinquedo_codBrinquedo`) REFERENCES `brinquedo` (`codBrinquedo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.ingressoeventos
+-- Copiando estrutura para tabela projeto_parque.ingressoeventos
+DROP TABLE IF EXISTS `ingressoeventos`;
 CREATE TABLE IF NOT EXISTS `ingressoeventos` (
   `codIngresso` int NOT NULL AUTO_INCREMENT,
   `tipoIngresso` varchar(45) NOT NULL,
@@ -176,8 +177,8 @@ CREATE TABLE IF NOT EXISTS `ingressoeventos` (
   CONSTRAINT `fk_ingressoEventos_eventos1` FOREIGN KEY (`eventos_codEventos`) REFERENCES `eventos` (`codEventos`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.lanche
+-- Copiando estrutura para tabela projeto_parque.lanche
+DROP TABLE IF EXISTS `lanche`;
 CREATE TABLE IF NOT EXISTS `lanche` (
   `codLanche` int NOT NULL AUTO_INCREMENT,
   `nomeLanche` varchar(450) NOT NULL,
@@ -190,8 +191,8 @@ CREATE TABLE IF NOT EXISTS `lanche` (
   CONSTRAINT `fk_lanche_categoria1` FOREIGN KEY (`categoria_codCategoria`) REFERENCES `categoria` (`codCategoria`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para procedure luis_parque.p_atualizarCargo
+-- Copiando estrutura para procedure projeto_parque.p_atualizarCargo
+DROP PROCEDURE IF EXISTS `p_atualizarCargo`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarCargo`(
     IN `atualizarCargo` INT,
@@ -216,7 +217,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarCompra
+-- Copiando estrutura para procedure projeto_parque.p_atualizarCompra
+DROP PROCEDURE IF EXISTS `p_atualizarCompra`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarCompra`(
     IN `compraPagamento` VARCHAR(45),
@@ -239,7 +241,8 @@ SELECT COUNT(*) INTO @contador FROM compra WHERE codCompra = atualizarCompra;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarEvento
+-- Copiando estrutura para procedure projeto_parque.p_atualizarEvento
+DROP PROCEDURE IF EXISTS `p_atualizarEvento`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarEvento`(
     IN `eventoNome` VARCHAR(45),
@@ -268,7 +271,8 @@ SELECT COUNT(*) INTO @contador FROM  eventos WHERE codEventos  = atualizarEvento
 end//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarFuncionario
+-- Copiando estrutura para procedure projeto_parque.p_atualizarFuncionario
+DROP PROCEDURE IF EXISTS `p_atualizarFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarFuncionario`(
     IN `funcionarioDemissao` DATE,
@@ -289,7 +293,8 @@ SELECT COUNT(*) INTO @contador FROM funcionario WHERE codFuncionario = atualizar
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarIngressoBrinquedo
+-- Copiando estrutura para procedure projeto_parque.p_atualizarIngressoBrinquedo
+DROP PROCEDURE IF EXISTS `p_atualizarIngressoBrinquedo`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarIngressoBrinquedo`(
     IN `atualizarIB` INT,
@@ -309,7 +314,8 @@ SELECT COUNT(*) INTO @contador FROM ingressoBrinquedos WHERE codIngresso  = atua
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarIngressoEvento
+-- Copiando estrutura para procedure projeto_parque.p_atualizarIngressoEvento
+DROP PROCEDURE IF EXISTS `p_atualizarIngressoEvento`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarIngressoEvento`(
     IN `atualizarIE` INT,
@@ -329,7 +335,8 @@ SELECT COUNT(*) INTO @contador FROM ingressoEventos WHERE codIngresso  = atualiz
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarLanche
+-- Copiando estrutura para procedure projeto_parque.p_atualizarLanche
+DROP PROCEDURE IF EXISTS `p_atualizarLanche`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarLanche`(
     IN `atualizarLanche` INT,
@@ -355,7 +362,8 @@ SELECT COUNT(*) INTO @contador FROM lanche WHERE codLanche = atualizarLanche;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_atualizarVisitante
+-- Copiando estrutura para procedure projeto_parque.p_atualizarVisitante
+DROP PROCEDURE IF EXISTS `p_atualizarVisitante`;
 DELIMITER //
 CREATE PROCEDURE `p_atualizarVisitante`(
     IN `atualizarVisitante` INT,
@@ -380,7 +388,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_buscarVisitante
+-- Copiando estrutura para procedure projeto_parque.p_buscarVisitante
+DROP PROCEDURE IF EXISTS `p_buscarVisitante`;
 DELIMITER //
 CREATE PROCEDURE `p_buscarVisitante`(
     IN `p_busca` VARCHAR(100)
@@ -393,7 +402,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarBrinquedo
+-- Copiando estrutura para procedure projeto_parque.p_deletarBrinquedo
+DROP PROCEDURE IF EXISTS `p_deletarBrinquedo`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarBrinquedo`(
     IN `deletarBrinquedo` INT
@@ -411,7 +421,8 @@ SELECT COUNT(*) INTO @contador FROM brinquedo WHERE codBrinquedo = deletarBrinqu
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarCargo
+-- Copiando estrutura para procedure projeto_parque.p_deletarCargo
+DROP PROCEDURE IF EXISTS `p_deletarCargo`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarCargo`(
     IN `deletarCargo` INT
@@ -429,7 +440,8 @@ SELECT COUNT(*) INTO @contador FROM cargo WHERE codCargo = deletarCargo;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarCategoria
+-- Copiando estrutura para procedure projeto_parque.p_deletarCategoria
+DROP PROCEDURE IF EXISTS `p_deletarCategoria`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarCategoria`(
     IN `deletarCategoria` INT
@@ -447,7 +459,8 @@ SELECT COUNT(*) INTO @contador FROM categoria WHERE codCategoria = deletarCatego
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarCompra
+-- Copiando estrutura para procedure projeto_parque.p_deletarCompra
+DROP PROCEDURE IF EXISTS `p_deletarCompra`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarCompra`(
     IN `deletarCompra` INT
@@ -465,7 +478,8 @@ SELECT COUNT(*) INTO @contador FROM compra WHERE codCompra = deletarCompra;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarComprasIB
+-- Copiando estrutura para procedure projeto_parque.p_deletarComprasIB
+DROP PROCEDURE IF EXISTS `p_deletarComprasIB`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarComprasIB`(
     IN `deletarCompraIB` INT
@@ -483,7 +497,8 @@ SELECT COUNT(*) INTO @contador FROM compra_ingressobrinquedos WHERE codCompraBri
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarComprasIE
+-- Copiando estrutura para procedure projeto_parque.p_deletarComprasIE
+DROP PROCEDURE IF EXISTS `p_deletarComprasIE`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarComprasIE`(
     IN `deletarComprasIE` INT
@@ -501,7 +516,8 @@ SELECT COUNT(*) INTO @contador FROM compra_ingressoeventos WHERE codCompraEvento
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarComprasLanche
+-- Copiando estrutura para procedure projeto_parque.p_deletarComprasLanche
+DROP PROCEDURE IF EXISTS `p_deletarComprasLanche`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarComprasLanche`(
     IN `deletarCompraLanche` INT
@@ -519,7 +535,8 @@ SELECT COUNT(*) INTO @contador FROM compraslanche WHERE codCompraLanche = deleta
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarEventos
+-- Copiando estrutura para procedure projeto_parque.p_deletarEventos
+DROP PROCEDURE IF EXISTS `p_deletarEventos`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarEventos`(
     IN `deletarEvento` INT
@@ -537,7 +554,8 @@ SELECT COUNT(*) INTO @contador FROM eventos WHERE codEventos = deletarEvento;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarFuncionario
+-- Copiando estrutura para procedure projeto_parque.p_deletarFuncionario
+DROP PROCEDURE IF EXISTS `p_deletarFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarFuncionario`(
     IN `deletarFuncionario` INT
@@ -555,7 +573,8 @@ SELECT COUNT(*) INTO @contador FROM funcionario WHERE codFuncionario = deletarFu
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarLanche
+-- Copiando estrutura para procedure projeto_parque.p_deletarLanche
+DROP PROCEDURE IF EXISTS `p_deletarLanche`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarLanche`(
     IN `deletarLanche` INT
@@ -573,7 +592,8 @@ SELECT COUNT(*) INTO @contador FROM lanche WHERE codLanche = deletarLanche;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_deletarVisitante
+-- Copiando estrutura para procedure projeto_parque.p_deletarVisitante
+DROP PROCEDURE IF EXISTS `p_deletarVisitante`;
 DELIMITER //
 CREATE PROCEDURE `p_deletarVisitante`(
     IN `deletarVisitante` INT
@@ -591,7 +611,8 @@ SELECT COUNT(*) INTO @contador FROM visitante WHERE codVisitante = deletarVisita
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirBrinquedo
+-- Copiando estrutura para procedure projeto_parque.p_inserirBrinquedo
+DROP PROCEDURE IF EXISTS `p_inserirBrinquedo`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirBrinquedo`(
     IN `novoBrinquedo` VARCHAR(500),
@@ -607,7 +628,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirCargo
+-- Copiando estrutura para procedure projeto_parque.p_inserirCargo
+DROP PROCEDURE IF EXISTS `p_inserirCargo`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirCargo`(
     IN `novoCargo` VARCHAR(45),
@@ -620,7 +642,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirCategoria
+-- Copiando estrutura para procedure projeto_parque.p_inserirCategoria
+DROP PROCEDURE IF EXISTS `p_inserirCategoria`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirCategoria`(
     IN `novaCategoria` VARCHAR(450),
@@ -632,7 +655,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirCompra
+-- Copiando estrutura para procedure projeto_parque.p_inserirCompra
+DROP PROCEDURE IF EXISTS `p_inserirCompra`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirCompra`(
     IN `compraPagar` VARCHAR(45),
@@ -646,7 +670,8 @@ INSERT INTO compra(tipoPagamento,visitante_codVisitante, funcionario_codFunciona
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirCompraIB
+-- Copiando estrutura para procedure projeto_parque.p_inserirCompraIB
+DROP PROCEDURE IF EXISTS `p_inserirCompraIB`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirCompraIB`(
     IN `cibCompra` INT,
@@ -660,7 +685,8 @@ INSERT INTO compra_ingressobrinquedos(compra_codCompra, ingressoBrinquedos_codIn
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirCompraIE
+-- Copiando estrutura para procedure projeto_parque.p_inserirCompraIE
+DROP PROCEDURE IF EXISTS `p_inserirCompraIE`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirCompraIE`(
     IN `cieCompra` INT,
@@ -674,7 +700,8 @@ INSERT INTO compra_ingressoeventos(compra_codCompra, ingressoEventos_codIngresso
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirCompraLanche
+-- Copiando estrutura para procedure projeto_parque.p_inserirCompraLanche
+DROP PROCEDURE IF EXISTS `p_inserirCompraLanche`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirCompraLanche`(
     IN `clCompra` INT,
@@ -688,7 +715,8 @@ INSERT INTO compraslanche(compra_codCompra, lanche_codLanche, quantidadeLanche)
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirEvento
+-- Copiando estrutura para procedure projeto_parque.p_inserirEvento
+DROP PROCEDURE IF EXISTS `p_inserirEvento`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirEvento`(
     IN `novoEvento` VARCHAR(45),
@@ -705,7 +733,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirFuncionario
+-- Copiando estrutura para procedure projeto_parque.p_inserirFuncionario
+DROP PROCEDURE IF EXISTS `p_inserirFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirFuncionario`(
     IN `novoFuncionario` VARCHAR(450),
@@ -723,7 +752,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirIngressoBrinquedo
+-- Copiando estrutura para procedure projeto_parque.p_inserirIngressoBrinquedo
+DROP PROCEDURE IF EXISTS `p_inserirIngressoBrinquedo`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirIngressoBrinquedo`(
     IN `ibTipo` VARCHAR(45),
@@ -738,7 +768,8 @@ INSERT INTO ingressobrinquedos(tipoIngresso, valor, lucroIB, brinquedo_codBrinqu
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirIngressoEventos
+-- Copiando estrutura para procedure projeto_parque.p_inserirIngressoEventos
+DROP PROCEDURE IF EXISTS `p_inserirIngressoEventos`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirIngressoEventos`(
     IN `ieTipo` VARCHAR(45),
@@ -753,7 +784,8 @@ INSERT INTO ingressoeventos(tipoIngresso, valor, lucroIE, eventos_codEventos)
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirLanche
+-- Copiando estrutura para procedure projeto_parque.p_inserirLanche
+DROP PROCEDURE IF EXISTS `p_inserirLanche`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirLanche`(
     IN `novoLanche` VARCHAR(450),
@@ -769,7 +801,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_inserirVisitante
+-- Copiando estrutura para procedure projeto_parque.p_inserirVisitante
+DROP PROCEDURE IF EXISTS `p_inserirVisitante`;
 DELIMITER //
 CREATE PROCEDURE `p_inserirVisitante`(
     IN `novoVisitante` VARCHAR(450),
@@ -782,15 +815,17 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarBrinquedo
+-- Copiando estrutura para procedure projeto_parque.p_listarBrinquedos
+DROP PROCEDURE IF EXISTS `p_listarBrinquedos`;
 DELIMITER //
-CREATE PROCEDURE `p_listarBrinquedo`()
+CREATE PROCEDURE `p_listarBrinquedos`()
 BEGIN
     SELECT * FROM brinquedo;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarCompras
+-- Copiando estrutura para procedure projeto_parque.p_listarCompras
+DROP PROCEDURE IF EXISTS `p_listarCompras`;
 DELIMITER //
 CREATE PROCEDURE `p_listarCompras`()
 BEGIN
@@ -798,7 +833,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarEventos
+-- Copiando estrutura para procedure projeto_parque.p_listarEventos
+DROP PROCEDURE IF EXISTS `p_listarEventos`;
 DELIMITER //
 CREATE PROCEDURE `p_listarEventos`()
 BEGIN
@@ -806,7 +842,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarIngressosBrinquedos
+-- Copiando estrutura para procedure projeto_parque.p_listarIngressosBrinquedos
+DROP PROCEDURE IF EXISTS `p_listarIngressosBrinquedos`;
 DELIMITER //
 CREATE PROCEDURE `p_listarIngressosBrinquedos`()
 BEGIN
@@ -814,7 +851,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarIngressosEventos
+-- Copiando estrutura para procedure projeto_parque.p_listarIngressosEventos
+DROP PROCEDURE IF EXISTS `p_listarIngressosEventos`;
 DELIMITER //
 CREATE PROCEDURE `p_listarIngressosEventos`()
 BEGIN
@@ -822,7 +860,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarLanches
+-- Copiando estrutura para procedure projeto_parque.p_listarLanches
+DROP PROCEDURE IF EXISTS `p_listarLanches`;
 DELIMITER //
 CREATE PROCEDURE `p_listarLanches`()
 BEGIN
@@ -830,7 +869,8 @@ SELECT * FROM lanche;
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_listarVisitantes
+-- Copiando estrutura para procedure projeto_parque.p_listarVisitantes
+DROP PROCEDURE IF EXISTS `p_listarVisitantes`;
 DELIMITER //
 CREATE PROCEDURE `p_listarVisitantes`()
 BEGIN
@@ -838,7 +878,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_loginFuncionario
+-- Copiando estrutura para procedure projeto_parque.p_loginFuncionario
+DROP PROCEDURE IF EXISTS `p_loginFuncionario`;
 DELIMITER //
 CREATE PROCEDURE `p_loginFuncionario`(
     IN `p_email` VARCHAR(100)
@@ -848,7 +889,8 @@ BEGIN
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_relatorioCompras
+-- Copiando estrutura para procedure projeto_parque.p_relatorioCompras
+DROP PROCEDURE IF EXISTS `p_relatorioCompras`;
 DELIMITER //
 CREATE PROCEDURE `p_relatorioCompras`(
     IN `modelo` VARCHAR(1)
@@ -873,7 +915,8 @@ if (modelo = 'A' )
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_relatorioComprasIB
+-- Copiando estrutura para procedure projeto_parque.p_relatorioComprasIB
+DROP PROCEDURE IF EXISTS `p_relatorioComprasIB`;
 DELIMITER //
 CREATE PROCEDURE `p_relatorioComprasIB`(
     IN `modelo` VARCHAR(1)
@@ -907,7 +950,8 @@ if (modelo = 'A' )
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_relatorioComprasIE
+-- Copiando estrutura para procedure projeto_parque.p_relatorioComprasIE
+DROP PROCEDURE IF EXISTS `p_relatorioComprasIE`;
 DELIMITER //
 CREATE PROCEDURE `p_relatorioComprasIE`(
     IN `modelo` VARCHAR(1)
@@ -943,7 +987,8 @@ if (modelo = 'A' )
 END//
 DELIMITER ;
 
--- Copiando estrutura para procedure luis_parque.p_relatorioComprasLanche
+-- Copiando estrutura para procedure projeto_parque.p_relatorioComprasLanche
+DROP PROCEDURE IF EXISTS `p_relatorioComprasLanche`;
 DELIMITER //
 CREATE PROCEDURE `p_relatorioComprasLanche`(
     IN `modelo` VARCHAR(1)
@@ -983,7 +1028,8 @@ if (modelo = 'A' )
 END//
 DELIMITER ;
 
--- Copiando estrutura para tabela luis_parque.tokens_redefinicao
+-- Copiando estrutura para tabela projeto_parque.tokens_redefinicao
+DROP TABLE IF EXISTS `tokens_redefinicao`;
 CREATE TABLE IF NOT EXISTS `tokens_redefinicao` (
   `codTokens_Redefinicao` int NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
@@ -994,8 +1040,8 @@ CREATE TABLE IF NOT EXISTS `tokens_redefinicao` (
   PRIMARY KEY (`codTokens_Redefinicao`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para tabela luis_parque.visitante
+-- Copiando estrutura para tabela projeto_parque.visitante
+DROP TABLE IF EXISTS `visitante`;
 CREATE TABLE IF NOT EXISTS `visitante` (
   `codVisitante` int NOT NULL AUTO_INCREMENT,
   `nomeVisitante` varchar(450) NOT NULL,
@@ -1006,8 +1052,8 @@ CREATE TABLE IF NOT EXISTS `visitante` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-
--- Copiando estrutura para trigger luis_parque.tri_admissaoFuncionario
+-- Copiando estrutura para trigger projeto_parque.tri_admissaoFuncionario
+DROP TRIGGER IF EXISTS `tri_admissaoFuncionario`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_admissaoFuncionario` AFTER INSERT ON `funcionario` FOR EACH ROW BEGIN
@@ -1021,7 +1067,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_ajustarCapacidade
+-- Copiando estrutura para trigger projeto_parque.tri_ajustarCapacidade
+DROP TRIGGER IF EXISTS `tri_ajustarCapacidade`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_ajustarCapacidade` AFTER UPDATE ON `compra_ingressobrinquedos` FOR EACH ROW BEGIN
@@ -1065,7 +1112,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_apagaCompra
+-- Copiando estrutura para trigger projeto_parque.tri_apagaCompra
+DROP TRIGGER IF EXISTS `tri_apagaCompra`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_apagaCompra` BEFORE DELETE ON `compra` FOR EACH ROW BEGIN
@@ -1076,7 +1124,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_calcularLucroIB
+-- Copiando estrutura para trigger projeto_parque.tri_calcularLucroIB
+DROP TRIGGER IF EXISTS `tri_calcularLucroIB`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_calcularLucroIB` BEFORE INSERT ON `ingressobrinquedos` FOR EACH ROW BEGIN
@@ -1085,7 +1134,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_calcularLucroIE
+-- Copiando estrutura para trigger projeto_parque.tri_calcularLucroIE
+DROP TRIGGER IF EXISTS `tri_calcularLucroIE`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_calcularLucroIE` BEFORE INSERT ON `ingressoeventos` FOR EACH ROW BEGIN
@@ -1094,7 +1144,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_calcularPrecoLanches
+-- Copiando estrutura para trigger projeto_parque.tri_calcularPrecoLanches
+DROP TRIGGER IF EXISTS `tri_calcularPrecoLanches`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_calcularPrecoLanches` BEFORE INSERT ON `lanche` FOR EACH ROW BEGIN
@@ -1103,7 +1154,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_capacidadeAjustar
+-- Copiando estrutura para trigger projeto_parque.tri_capacidadeAjustar
+DROP TRIGGER IF EXISTS `tri_capacidadeAjustar`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_capacidadeAjustar` BEFORE UPDATE ON `brinquedo` FOR EACH ROW BEGIN
@@ -1116,7 +1168,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_comissaoCargo
+-- Copiando estrutura para trigger projeto_parque.tri_comissaoCargo
+DROP TRIGGER IF EXISTS `tri_comissaoCargo`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_comissaoCargo` BEFORE INSERT ON `cargo` FOR EACH ROW BEGIN
@@ -1125,7 +1178,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_comissaoCargos
+-- Copiando estrutura para trigger projeto_parque.tri_comissaoCargos
+DROP TRIGGER IF EXISTS `tri_comissaoCargos`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_comissaoCargos` BEFORE UPDATE ON `cargo` FOR EACH ROW BEGIN
@@ -1134,7 +1188,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_compra_before_delete
+-- Copiando estrutura para trigger projeto_parque.tri_compra_before_delete
+DROP TRIGGER IF EXISTS `tri_compra_before_delete`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_compra_before_delete` BEFORE DELETE ON `compra` FOR EACH ROW BEGIN
@@ -1145,7 +1200,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_demissaoFuncionario
+-- Copiando estrutura para trigger projeto_parque.tri_demissaoFuncionario
+DROP TRIGGER IF EXISTS `tri_demissaoFuncionario`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_demissaoFuncionario` AFTER UPDATE ON `funcionario` FOR EACH ROW BEGIN
@@ -1174,7 +1230,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_exclusaoVisitante
+-- Copiando estrutura para trigger projeto_parque.tri_exclusaoVisitante
+DROP TRIGGER IF EXISTS `tri_exclusaoVisitante`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_exclusaoVisitante` AFTER DELETE ON `visitante` FOR EACH ROW BEGIN
@@ -1184,7 +1241,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_funcionamentoBrinquedo
+-- Copiando estrutura para trigger projeto_parque.tri_funcionamentoBrinquedo
+DROP TRIGGER IF EXISTS `tri_funcionamentoBrinquedo`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_funcionamentoBrinquedo` AFTER UPDATE ON `brinquedo` FOR EACH ROW BEGIN
@@ -1207,13 +1265,13 @@ END if;
 END if;
 END if;
 
-
 INSERT INTO auditoria VALUES (NULL, @mensagem, "brinquedo", NOW(), USER());
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_ingressoInvalido
+-- Copiando estrutura para trigger projeto_parque.tri_ingressoInvalido
+DROP TRIGGER IF EXISTS `tri_ingressoInvalido`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_ingressoInvalido` AFTER INSERT ON `compra_ingressoeventos` FOR EACH ROW BEGIN
@@ -1233,7 +1291,6 @@ SELECT e.nomeEvento INTO @nomeEvento FROM eventos AS e
 INNER JOIN ingressoeventos AS ie ON e.codEventos = ie.eventos_codEventos
 WHERE NEW.ingressoEventos_codIngresso = ie.codIngresso;
 
-
 if (@datafim < NOW())
 then
 SET @mensagem = CONCAT("Visitante: ", @nomeVisitante, " tentou comprar um ingresso inválido ou cujo evento encerrou-se!");
@@ -1248,7 +1305,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_novoVisitante
+-- Copiando estrutura para trigger projeto_parque.tri_novoVisitante
+DROP TRIGGER IF EXISTS `tri_novoVisitante`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_novoVisitante` AFTER INSERT ON `visitante` FOR EACH ROW BEGIN
@@ -1258,7 +1316,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_recalcularLucroIB
+-- Copiando estrutura para trigger projeto_parque.tri_recalcularLucroIB
+DROP TRIGGER IF EXISTS `tri_recalcularLucroIB`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_recalcularLucroIB` BEFORE UPDATE ON `ingressobrinquedos` FOR EACH ROW BEGIN
@@ -1274,7 +1333,8 @@ end//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_recalcularLucroIE
+-- Copiando estrutura para trigger projeto_parque.tri_recalcularLucroIE
+DROP TRIGGER IF EXISTS `tri_recalcularLucroIE`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_recalcularLucroIE` BEFORE UPDATE ON `ingressoeventos` FOR EACH ROW BEGIN
@@ -1294,7 +1354,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_recalcularPrecoLanche
+-- Copiando estrutura para trigger projeto_parque.tri_recalcularPrecoLanche
+DROP TRIGGER IF EXISTS `tri_recalcularPrecoLanche`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_recalcularPrecoLanche` BEFORE UPDATE ON `lanche` FOR EACH ROW BEGIN
@@ -1314,7 +1375,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_restricaoIdade
+-- Copiando estrutura para trigger projeto_parque.tri_restricaoIdade
+DROP TRIGGER IF EXISTS `tri_restricaoIdade`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_restricaoIdade` AFTER INSERT ON `compra_ingressobrinquedos` FOR EACH ROW BEGIN
@@ -1381,7 +1443,8 @@ END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
--- Copiando estrutura para trigger luis_parque.tri_restricaoVerificada
+-- Copiando estrutura para trigger projeto_parque.tri_restricaoVerificada
+DROP TRIGGER IF EXISTS `tri_restricaoVerificada`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `tri_restricaoVerificada` AFTER UPDATE ON `compra_ingressobrinquedos` FOR EACH ROW BEGIN
