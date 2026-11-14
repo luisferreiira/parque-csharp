@@ -1,6 +1,3 @@
--- Importação completa do Projeto Parque. Faça backup de projeto_parque antes de executar.
--- Este dump recria as tabelas e restaura os registros da exportação original.
-
 -- --------------------------------------------------------
 -- Servidor:                     127.0.0.1
 -- Versão do servidor:           26.10.0 - MySQL Community Server - GPL
@@ -9,7 +6,8 @@
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-SET NAMES utf8mb4;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
@@ -19,7 +17,7 @@ SET NAMES utf8mb4;
 
 -- Copiando estrutura do banco de dados para projeto_parque
 DROP DATABASE IF EXISTS `projeto_parque`;
-CREATE DATABASE IF NOT EXISTS `projeto_parque` /*!40100 DEFAULT CHARACTER SET utf8mb4 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `projeto_parque` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `projeto_parque`;
 
 -- Copiando estrutura para tabela projeto_parque.auditoria
@@ -31,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `auditoria` (
   `dataHora` datetime NOT NULL,
   `usuario` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`codAuditoria`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.auditoria: ~118 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.auditoria: ~135 rows (aproximadamente)
 INSERT IGNORE INTO `auditoria` (`codAuditoria`, `acao`, `tabela`, `dataHora`, `usuario`) VALUES
 	(1, 'Novo Funcionário \'teste\' foi admitido no Parque como \'Operador de Brinquedo\'', 'funcionário', '2025-01-18 16:04:13', 'root@localhost'),
 	(2, 'Novo Funcionário \'teste\' foi admitido no Parque como \'Operador de Brinquedo\'', 'funcionário', '2025-01-18 16:23:25', 'root@localhost'),
@@ -158,7 +156,23 @@ INSERT IGNORE INTO `auditoria` (`codAuditoria`, `acao`, `tabela`, `dataHora`, `u
 	(137, 'Visitante: teste concluiu o seu cadastro no Parque!', 'visitante', '2025-08-05 19:22:46', 'root@localhost'),
 	(138, 'Novo Funcionário \'Luis\' foi admitido no Parque como \'Gerente\'', 'funcionário', '2025-08-05 19:48:17', 'root@localhost'),
 	(140, 'Visitante: LUIS FERREIRA comprou ingresso(s) para o evento: Baile de Máscaras', 'compra_ingressoeventos', '2025-08-05 20:36:11', 'root@localhost'),
-	(142, 'Visitante: Tulio concluiu o seu cadastro no Parque!', 'visitante', '2025-09-02 13:29:45', 'root@localhost');
+	(142, 'Visitante: Tulio concluiu o seu cadastro no Parque!', 'visitante', '2025-09-02 13:29:45', 'root@localhost'),
+	(145, 'Visitante: Visitante Maior de Idade concluiu o seu cadastro no Parque!', 'visitante', '2026-11-08 16:15:39', 'root@localhost'),
+	(146, 'Visitante: Visitante Menor de Idade concluiu o seu cadastro no Parque!', 'visitante', '2026-11-08 16:15:51', 'root@localhost'),
+	(147, 'Visitante: Serena van der Woodsen comprou ingresso(s) para o brinquedo: Torre do Medo', 'compra_ingressobrinquedos', '2026-11-08 17:18:43', 'root@localhost'),
+	(148, 'Visitante: Serena van der Woodsen comprou ingresso(s) para o brinquedo: Torre do Medo', 'brinquedo', '2026-11-08 17:18:43', 'root@localhost'),
+	(149, 'Visitante: Serena van der Woodsen comprou ingresso(s) para o evento: Baile de Máscaras', 'compra_ingressoeventos', '2026-11-08 17:18:43', 'root@localhost'),
+	(153, 'Visitante: Visitante Menor de Idade comprou ingresso(s) para o evento: Show de Luzes', 'compra_ingressoeventos', '2026-11-08 17:21:49', 'root@localhost'),
+	(155, 'Visitante: Nate Archibald comprou ingresso(s) para o brinquedo: Torre do Medo', 'compra_ingressobrinquedos', '2026-11-08 19:23:52', 'root@localhost'),
+	(156, 'Visitante: Nate Archibald comprou ingresso(s) para o brinquedo: Torre do Medo', 'brinquedo', '2026-11-08 19:23:52', 'root@localhost'),
+	(157, 'Visitante: Nate Archibald comprou ingresso(s) para o brinquedo: Roda Encantada', 'compra_ingressobrinquedos', '2026-11-08 19:23:52', 'root@localhost'),
+	(158, 'Visitante: Nate Archibald comprou ingresso(s) para o brinquedo: Roda Encantada', 'brinquedo', '2026-11-08 19:23:52', 'root@localhost'),
+	(159, 'Visitante: Nate Archibald comprou ingresso(s) para o evento: Show de Luzes', 'compra_ingressoeventos', '2026-11-08 19:23:52', 'root@localhost'),
+	(160, 'Novo Funcionário \'Maria\' foi admitido no Parque como \'Gerente\'', 'funcionário', '2026-11-08 19:56:21', 'root@localhost'),
+	(161, 'Visitante: Elena Gilbert comprou ingresso(s) para o brinquedo: Trem Fantasma', 'compra_ingressobrinquedos', '2026-11-14 09:55:06', 'root@localhost'),
+	(162, 'Visitante: Elena Gilbert comprou ingresso(s) para o brinquedo: Trem Fantasma', 'brinquedo', '2026-11-14 09:55:06', 'root@localhost'),
+	(163, 'Visitante: Elena Gilbert comprou ingresso(s) para o evento: Show de Luzes', 'compra_ingressoeventos', '2026-11-14 09:55:06', 'root@localhost'),
+	(164, 'Novo Funcionário \'admin\' foi admitido no Parque como \'Gerente\'', 'funcionário', '2026-11-14 10:01:54', 'root@localhost');
 
 -- Copiando estrutura para tabela projeto_parque.brinquedo
 DROP TABLE IF EXISTS `brinquedo`;
@@ -171,13 +185,13 @@ CREATE TABLE IF NOT EXISTS `brinquedo` (
   `idadeRestrita` int NOT NULL,
   `funcionamento` tinyint DEFAULT NULL,
   PRIMARY KEY (`codBrinquedo`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.brinquedo: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.brinquedo: ~5 rows (aproximadamente)
 INSERT IGNORE INTO `brinquedo` (`codBrinquedo`, `nomeBrinquedo`, `capacidadeMaxima`, `capacidadeAtual`, `tipoBrinquedo`, `idadeRestrita`, `funcionamento`) VALUES
 	(1, 'Torre do Medo', 100, 99, 'Radical', 14, 1),
 	(2, 'Roda Encantada', 100, 99, 'Familiar', 0, 1),
-	(3, 'Trem Fantasma', 100, 100, 'Temático', 10, 1),
+	(3, 'Trem Fantasma', 100, 99, 'Temático', 10, 1),
 	(14, 'tobogãaa', 21, 21, 'aquáticooo', 17, 2),
 	(15, 'teste', 1, 1, 'testee', 10, 0);
 
@@ -190,9 +204,9 @@ CREATE TABLE IF NOT EXISTS `cargo` (
   `salarioFinal` double DEFAULT NULL,
   `comissao` int DEFAULT NULL,
   PRIMARY KEY (`codCargo`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.cargo: ~5 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.cargo: ~6 rows (aproximadamente)
 INSERT IGNORE INTO `cargo` (`codCargo`, `nomeCargo`, `salarioInicial`, `salarioFinal`, `comissao`) VALUES
 	(1, 'Operador de Brinquedo', 2000, 2000, 0),
 	(2, 'Técnico de Manutenção', 2500, 2500, 0),
@@ -208,9 +222,9 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   `nomeCategoria` varchar(450) NOT NULL,
   `descricao` varchar(450) DEFAULT NULL,
   PRIMARY KEY (`codCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.categoria: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.categoria: ~4 rows (aproximadamente)
 INSERT IGNORE INTO `categoria` (`codCategoria`, `nomeCategoria`, `descricao`) VALUES
 	(1, 'Bebidas', 'Bebidas variadas como sucos e refrigerantes.'),
 	(2, 'Lanche Rápido', 'Alimentos de fácil preparo, como salgados.'),
@@ -231,9 +245,9 @@ CREATE TABLE IF NOT EXISTS `compra` (
   KEY `fk_compra_funcionario1_idx` (`funcionario_codFuncionario`),
   CONSTRAINT `fk_compra_funcionario1` FOREIGN KEY (`funcionario_codFuncionario`) REFERENCES `funcionario` (`codFuncionario`),
   CONSTRAINT `fk_compra_visitante1` FOREIGN KEY (`visitante_codVisitante`) REFERENCES `visitante` (`codVisitante`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.compra: ~43 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.compra: ~48 rows (aproximadamente)
 INSERT IGNORE INTO `compra` (`codCompra`, `tipoPagamento`, `dataCompra`, `visitante_codVisitante`, `funcionario_codFuncionario`) VALUES
 	(1, 'Cartão de Crédito', '2024-11-19 00:00:00', 1, 6),
 	(2, 'Cartão de Débito', '2024-12-11 16:05:24', 6, 4),
@@ -281,7 +295,8 @@ INSERT IGNORE INTO `compra` (`codCompra`, `tipoPagamento`, `dataCompra`, `visita
 	(131, 'PIX', '2025-08-05 20:29:47', 17, 6),
 	(132, 'Cartão de Débito', '2025-08-05 20:36:10', 17, 21),
 	(133, 'Dinheiro', '2025-08-12 13:44:50', 16, 21),
-	(134, 'PIX', '2026-11-02 16:13:57', 19, 5);
+	(141, 'Cartão de Crédito', '2026-11-08 19:23:52', 5, 23),
+	(142, 'Cartão de Débito', '2026-11-14 09:55:06', 8, 23);
 
 -- Copiando estrutura para tabela projeto_parque.compra_ingressobrinquedos
 DROP TABLE IF EXISTS `compra_ingressobrinquedos`;
@@ -295,9 +310,9 @@ CREATE TABLE IF NOT EXISTS `compra_ingressobrinquedos` (
   KEY `fk_compra_has_ingressoBrinquedos_compra1_idx` (`compra_codCompra`),
   CONSTRAINT `fk_compra_has_ingressoBrinquedos_compra1` FOREIGN KEY (`compra_codCompra`) REFERENCES `compra` (`codCompra`),
   CONSTRAINT `fk_compra_has_ingressoBrinquedos_ingressoBrinquedos1` FOREIGN KEY (`ingressoBrinquedos_codIngresso`) REFERENCES `ingressobrinquedos` (`codIngresso`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.compra_ingressobrinquedos: ~20 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.compra_ingressobrinquedos: ~22 rows (aproximadamente)
 INSERT IGNORE INTO `compra_ingressobrinquedos` (`codCompraBrinquedos`, `compra_codCompra`, `ingressoBrinquedos_codIngresso`, `quantIngBrinq`) VALUES
 	(1, 4, 2, 2),
 	(2, 1, 4, 1),
@@ -318,7 +333,10 @@ INSERT IGNORE INTO `compra_ingressobrinquedos` (`codCompraBrinquedos`, `compra_c
 	(46, 106, 1, 1),
 	(47, 127, 1, 1),
 	(48, 127, 1, 1),
-	(49, 128, 4, 1);
+	(49, 128, 4, 1),
+	(63, 141, 1, 1),
+	(64, 141, 4, 1),
+	(65, 142, 6, 1);
 
 -- Copiando estrutura para tabela projeto_parque.compra_ingressoeventos
 DROP TABLE IF EXISTS `compra_ingressoeventos`;
@@ -332,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `compra_ingressoeventos` (
   KEY `fk_compra_has_ingressoEventos_compra1_idx` (`compra_codCompra`),
   CONSTRAINT `fk_compra_has_ingressoEventos_compra1` FOREIGN KEY (`compra_codCompra`) REFERENCES `compra` (`codCompra`),
   CONSTRAINT `fk_compra_has_ingressoEventos_ingressoEventos1` FOREIGN KEY (`ingressoEventos_codIngresso`) REFERENCES `ingressoeventos` (`codIngresso`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela projeto_parque.compra_ingressoeventos: ~23 rows (aproximadamente)
 INSERT IGNORE INTO `compra_ingressoeventos` (`codCompraEventos`, `compra_codCompra`, `ingressoEventos_codIngresso`, `quantIngEvent`) VALUES
@@ -358,7 +376,9 @@ INSERT IGNORE INTO `compra_ingressoeventos` (`codCompraEventos`, `compra_codComp
 	(34, 124, 2, 3),
 	(35, 127, 1, 1),
 	(36, 128, 8, 1),
-	(38, 132, 8, 2);
+	(38, 132, 8, 2),
+	(41, 141, 5, 1),
+	(42, 142, 6, 1);
 
 -- Copiando estrutura para tabela projeto_parque.compraslanche
 DROP TABLE IF EXISTS `compraslanche`;
@@ -372,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `compraslanche` (
   KEY `fk_compra_has_lanche_compra1_idx` (`compra_codCompra`),
   CONSTRAINT `fk_compra_has_lanche_compra1` FOREIGN KEY (`compra_codCompra`) REFERENCES `compra` (`codCompra`),
   CONSTRAINT `fk_compra_has_lanche_lanche1` FOREIGN KEY (`lanche_codLanche`) REFERENCES `lanche` (`codLanche`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela projeto_parque.compraslanche: ~33 rows (aproximadamente)
 INSERT IGNORE INTO `compraslanche` (`codCompraLanche`, `compra_codCompra`, `lanche_codLanche`, `quantidadeLanche`) VALUES
@@ -421,7 +441,7 @@ CREATE TABLE IF NOT EXISTS `eventos` (
   `dataFim` datetime NOT NULL,
   `descricao` varchar(450) DEFAULT NULL,
   PRIMARY KEY (`codEventos`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela projeto_parque.eventos: ~4 rows (aproximadamente)
 INSERT IGNORE INTO `eventos` (`codEventos`, `nomeEvento`, `tipoEvento`, `localEvento`, `dataInicio`, `dataFim`, `descricao`) VALUES
@@ -447,9 +467,9 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
   UNIQUE KEY `email` (`email`),
   KEY `fk_funcionario_cargo_idx` (`cargo_codCargo`),
   CONSTRAINT `fk_funcionario_cargo` FOREIGN KEY (`cargo_codCargo`) REFERENCES `cargo` (`codCargo`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.funcionario: ~9 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.funcionario: ~11 rows (aproximadamente)
 INSERT IGNORE INTO `funcionario` (`codFuncionario`, `nomeFuncionario`, `cpf`, `carteiraTrabalho`, `dataAdmissao`, `dataDemissao`, `email`, `senha`, `cargo_codCargo`) VALUES
 	(1, 'Aria Montgomery', '123.456.789-00', '12345678-9', '2023-05-10', NULL, 'ariam@gmail.com', '$2a$10$v9vxkokisTzTxCnB0BE0R.7gYuA70g.S9knQjp7rh2iODHaQn094u', 2),
 	(2, 'Spencer Hastings', '234.567.890-11', '23456789-0', '2024-02-15', NULL, 'spencerh@gmail.com', '$2a$10$wm5oH0p0ebnhuKa3YOlKTeEHb6.Dd1VOinYX6k.JfWn27oYdoVidO', 1),
@@ -459,7 +479,9 @@ INSERT IGNORE INTO `funcionario` (`codFuncionario`, `nomeFuncionario`, `cpf`, `c
 	(6, 'Meredith Grey', '741.444.222-88', '00000000-1', '2025-01-17', NULL, 'meredithg@gmail.com', '$2a$10$fLSQxhYn/tXBRzGi0TbyROEGDrgQSyxYacwOy9HaT5CXgu0cTGyVq', 4),
 	(15, 'Izzie Stevens', '222.333.555-05', '35480124-7', '2025-01-17', '2026-08-15', 'izobels@gmail.com', '$2a$10$eA346R0iavDnBaHl./N9d.H20KfYCNLbXSvOBBs/ro/aiMIHwdlGi', 2),
 	(21, 'Crisitna Yang', '777.666.555-44', '75385215-0', '2025-07-01', NULL, 'cristinay@gmail.com', '$2a$10$rgDJ981OTM4O2KdJk.l8PuteUSjFQW2k9Amg8IXOObocITJGSJKo.', 4),
-	(23, 'Luis', '7', '7', '2025-08-05', NULL, 'luisguferreira2020@gmail.com', '$2a$10$xENta/ZVpd9qv5ChlVQ9vOaYXDT72HZG9RZm2xlkTyT1sHqVIQqaa', 5);
+	(23, 'Luis', '7', '7', '2025-08-05', NULL, 'luisguferreira2020@gmail.com', '$2a$10$xENta/ZVpd9qv5ChlVQ9vOaYXDT72HZG9RZm2xlkTyT1sHqVIQqaa', 5),
+	(24, 'Maria', '000.000.067-00', '0000000-67', '2026-11-08', NULL, 'mariacesiliasantos2@gmail.com', '$2a$10$7bLjumY/dhlIfm6n.1KfKeawtDFqx2w5RWSVVbTnuonxx3hDq5t/q', 5),
+	(25, 'Adminstrador', '1', '1', '2026-11-14', NULL, 'admin', '$2a$10$IfzkYDu3ll3uHWmn52wr6.VMcZwKUO19oKUDxN9vLT/G9KCbPSjxK', 5);
 
 -- Copiando estrutura para tabela projeto_parque.ingressobrinquedos
 DROP TABLE IF EXISTS `ingressobrinquedos`;
@@ -473,9 +495,9 @@ CREATE TABLE IF NOT EXISTS `ingressobrinquedos` (
   UNIQUE KEY `uq_ingresso_brinquedo_codigo` (`codIngresso`),
   KEY `fk_ingressoBrinquedos_brinquedo1_idx` (`brinquedo_codBrinquedo`),
   CONSTRAINT `fk_ingressoBrinquedos_brinquedo1` FOREIGN KEY (`brinquedo_codBrinquedo`) REFERENCES `brinquedo` (`codBrinquedo`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.ingressobrinquedos: ~8 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.ingressobrinquedos: ~6 rows (aproximadamente)
 INSERT IGNORE INTO `ingressobrinquedos` (`codIngresso`, `tipoIngresso`, `valor`, `lucroIB`, `brinquedo_codBrinquedo`) VALUES
 	(1, 'Meia-Entrada', 30, 0, 1),
 	(2, 'Inteira', 40, NULL, 1),
@@ -496,9 +518,9 @@ CREATE TABLE IF NOT EXISTS `ingressoeventos` (
   UNIQUE KEY `uq_ingresso_evento_codigo` (`codIngresso`),
   KEY `fk_ingressoEventos_eventos1_idx` (`eventos_codEventos`),
   CONSTRAINT `fk_ingressoEventos_eventos1` FOREIGN KEY (`eventos_codEventos`) REFERENCES `eventos` (`codEventos`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.ingressoeventos: ~9 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.ingressoeventos: ~8 rows (aproximadamente)
 INSERT IGNORE INTO `ingressoeventos` (`codIngresso`, `tipoIngresso`, `valor`, `lucroIE`, `eventos_codEventos`) VALUES
 	(1, 'Comum', 50, NULL, 1),
 	(2, 'VIP', 80, NULL, 1),
@@ -522,9 +544,9 @@ CREATE TABLE IF NOT EXISTS `lanche` (
   UNIQUE KEY `uq_lanche_codigo` (`codLanche`),
   KEY `fk_lanche_categoria1_idx` (`categoria_codCategoria`),
   CONSTRAINT `fk_lanche_categoria1` FOREIGN KEY (`categoria_codCategoria`) REFERENCES `categoria` (`codCategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.lanche: ~6 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.lanche: ~5 rows (aproximadamente)
 INSERT IGNORE INTO `lanche` (`codLanche`, `nomeLanche`, `precoLanche`, `descricao`, `lucroLanches`, `categoria_codCategoria`) VALUES
 	(1, 'Big Mac', 18, 'Sanduíche icônico com dois hambúrgueres e molho especial.', NULL, 2),
 	(2, 'Whopper', 20, 'Sanduíche com hambúrguer grelhado e recheio generoso.', NULL, 2),
@@ -814,7 +836,7 @@ SELECT COUNT(*) INTO @contador FROM compra WHERE codCompra = deletarCompra;
 			SELECT "Não foi possivel realizar a exclusão, pois o código inserido é inexistente!!" AS erro;
 		ELSE
 			DELETE FROM compra WHERE codCompra = deletarCompra;
-			SELECT * FROM compra;
+			SELECT ROW_COUNT() AS linhasAfetadas;
 		END if;
 END//
 DELIMITER ;
@@ -1170,7 +1192,10 @@ DROP PROCEDURE IF EXISTS `p_listarCompras`;
 DELIMITER //
 CREATE PROCEDURE `p_listarCompras`()
 BEGIN
-	SELECT * FROM compra;
+	SELECT c.*, v.nomeVisitante, f.nomeFuncionario FROM compra AS c
+	LEFT JOIN visitante AS v ON c.visitante_codVisitante = v.codVisitante
+	LEFT JOIN funcionario AS f ON c.funcionario_codFuncionario = f.codFuncionario
+	ORDER BY c.dataCompra DESC , c.codCompra DESC;
 END//
 DELIMITER ;
 
@@ -1201,6 +1226,53 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Copiando estrutura para procedure projeto_parque.p_listarItensCompra
+DROP PROCEDURE IF EXISTS `p_listarItensCompra`;
+DELIMITER //
+CREATE PROCEDURE `p_listarItensCompra`(IN `p_codCompra` INT)
+BEGIN
+    SELECT
+        cib.codCompraBrinquedos AS codItemCompra,
+        'Brinquedo' AS tipoItem,
+        CONCAT(b.nomeBrinquedo, ' - ', ib.tipoIngresso) AS descricao,
+        cib.quantIngBrinq AS quantidade
+    FROM compra_ingressobrinquedos AS cib
+    INNER JOIN ingressobrinquedos AS ib
+        ON ib.codIngresso = cib.ingressoBrinquedos_codIngresso
+    INNER JOIN brinquedo AS b
+        ON b.codBrinquedo = ib.brinquedo_codBrinquedo
+    WHERE cib.compra_codCompra = p_codCompra
+
+    UNION ALL
+
+    SELECT
+        cie.codCompraEventos,
+        'Evento',
+        CONCAT(e.nomeEvento, ' - ', ie.tipoIngresso),
+        cie.quantIngEvent
+    FROM compra_ingressoeventos AS cie
+    INNER JOIN ingressoeventos AS ie
+        ON ie.codIngresso = cie.ingressoEventos_codIngresso
+    INNER JOIN eventos AS e
+        ON e.codEventos = ie.eventos_codEventos
+    WHERE cie.compra_codCompra = p_codCompra
+
+    UNION ALL
+
+    SELECT
+        cl.codCompraLanche,
+        'Lanche',
+        l.nomeLanche,
+        cl.quantidadeLanche
+    FROM compraslanche AS cl
+    INNER JOIN lanche AS l
+        ON l.codLanche = cl.lanche_codLanche
+    WHERE cl.compra_codCompra = p_codCompra
+
+    ORDER BY tipoItem, descricao, codItemCompra;
+END//
+DELIMITER ;
+
 -- Copiando estrutura para procedure projeto_parque.p_listarLanches
 DROP PROCEDURE IF EXISTS `p_listarLanches`;
 DELIMITER //
@@ -1226,7 +1298,7 @@ CREATE PROCEDURE `p_loginFuncionario`(
 	IN `p_email` VARCHAR(100)
 )
 BEGIN
-	SELECT * FROM funcionario WHERE email = p_email AND dataDemissao IS NULL LIMIT 1;
+	SELECT f.*, c.nomeCargo FROM funcionario AS f INNER JOIN cargo AS c ON f.cargo_codCargo = c.codCargo WHERE email = p_email AND dataDemissao IS NULL LIMIT 1;
 END//
 DELIMITER ;
 
@@ -1379,7 +1451,7 @@ CREATE TABLE IF NOT EXISTS `tokens_redefinicao` (
   `expiracao` datetime NOT NULL,
   `criado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`codTokens_Redefinicao`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela projeto_parque.tokens_redefinicao: ~20 rows (aproximadamente)
 INSERT IGNORE INTO `tokens_redefinicao` (`codTokens_Redefinicao`, `email`, `token`, `tipo_usuario`, `expiracao`, `criado_em`) VALUES
@@ -1414,9 +1486,9 @@ CREATE TABLE IF NOT EXISTS `visitante` (
   `senha` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`codVisitante`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela projeto_parque.visitante: ~10 rows (aproximadamente)
+-- Copiando dados para a tabela projeto_parque.visitante: ~12 rows (aproximadamente)
 INSERT IGNORE INTO `visitante` (`codVisitante`, `nomeVisitante`, `dataNascimento`, `email`, `senha`) VALUES
 	(1, 'Serena van der Woodsen', '1990-07-01', 'serena.vdw@example.com', '$2a$10$cgYRpfGFBCT2Kn3Ict39wurjmybJg5GSnVolpI8BI0Gbv21vDVh8W'),
 	(2, 'Blair Waldorf', '1990-02-15', 'blair.waldorf@example.com', '$2a$10$BjHnCOVqfldxL6aagtHXw.yGy/3DpvyYWs3mUG0T8SwRLq0n52xuu'),
@@ -1429,7 +1501,9 @@ INSERT IGNORE INTO `visitante` (`codVisitante`, `nomeVisitante`, `dataNascimento
 	(11, 'Luis', '2007-08-14', 'luisguferreira2020@gmail.com', '$2a$10$IgtNP3akM9j/M14mFx5V9OJgrfa5vRQfxwJ4pK3NrHJkVPnIC2cbe'),
 	(16, 'Tulio', '2025-07-17', 'tulio@gmail.com', '$2a$10$eDEcayyE/aIG4k0.MTh9Kug18xyPnZQODw/OSA3/ilDyYMx5Epo/W'),
 	(17, 'LUIS FERREIRA', '2025-08-05', 'luisg@gmail.com', '$2a$10$7oZZIsYgF0mulp37qSSaHeqAD.W3YK9dn5nl8ifFlNqOqwKqrAta2'),
-	(19, 'Tulio', '2025-09-18', 'tuliodias@yahoo.com.br', '$2a$10$4hStv8dYu2hGWq.VwgleQOo1X46vfx/m4RLU7.gdfY2kZG6FgiMka');
+	(19, 'Tulio', '2025-09-18', 'tuliodias@yahoo.com.br', '$2a$10$4hStv8dYu2hGWq.VwgleQOo1X46vfx/m4RLU7.gdfY2kZG6FgiMka'),
+	(20, 'Visitante Maior de Idade', '2000-11-08', NULL, NULL),
+	(21, 'Visitante Menor de Idade', '2026-11-08', NULL, NULL);
 
 -- Copiando estrutura para trigger projeto_parque.tri_admissaoFuncionario
 DROP TRIGGER IF EXISTS `tri_admissaoFuncionario`;
@@ -1563,18 +1637,6 @@ SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLE
 DELIMITER //
 CREATE TRIGGER `tri_comissaoCargos` BEFORE UPDATE ON `cargo` FOR EACH ROW BEGIN
 set new.salarioFinal = NEW.salarioInicial + (NEW.salarioInicial * NEW.comissao/100);
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
-
--- Copiando estrutura para trigger projeto_parque.tri_compra_before_delete
-DROP TRIGGER IF EXISTS `tri_compra_before_delete`;
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `tri_compra_before_delete` BEFORE DELETE ON `compra` FOR EACH ROW BEGIN
-	DELETE FROM compraslanche as cl WHERE cl.compra_codCompra = OLD.codCompra;
-	DELETE FROM compra_ingressobrinquedos AS cib WHERE cib.compra_codCompra = OLD.codCompra;
-	DELETE FROM compra_ingressoeventos AS cie WHERE cie.compra_codCompra = OLD.codCompra;
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;

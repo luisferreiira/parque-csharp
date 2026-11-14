@@ -14,7 +14,7 @@ Projeto acadêmico em C# para a gestão de um parque de diversões. A aplicaçã
 
 Use o Windows com o SDK do .NET 10 e uma instância do MySQL.
 
-1. Importe [banco/schema.sql](banco/schema.sql) em uma instância de desenvolvimento para criar o banco `projeto_parque` e carregar os dados iniciais.
+1. Importe [banco/sql_projeto_parque_csharp.sql](banco/sql_projeto_parque_csharp.sql) em uma instância de desenvolvimento. O script recria o banco `projeto_parque` e carrega os dados iniciais. Se o banco já existir nessa instância, a importação apagará os dados atuais.
 2. A conexão usa o MySQL em `localhost:3307`. Se sua instância tiver outra configuração, ajuste a string de conexão em [DAO/Connection.cs](ProjetoParqueCSharp/DAO/Connection.cs).
 
 3. Na raiz do repositório, execute o projeto.
