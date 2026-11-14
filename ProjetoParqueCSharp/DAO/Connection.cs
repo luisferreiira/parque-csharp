@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Security.Authentication;
 using MySql.Data.MySqlClient;
 using ProjetoParqueCSharp.Model;
 
@@ -103,6 +104,14 @@ namespace ProjetoParqueCSharp.DAO
             return ExecutarConsulta("p_listarCompras");
         }
 
+        // Consulta apenas os itens da compra escolhida no histórico.
+        public DataTable ListarItensCompra(int codigoCompra)
+        {
+            return ExecutarConsulta(
+                "p_listarItensCompra",
+                new MySqlParameter("p_codCompra", codigoCompra));
+        }
+
         public int InserirCompra(Compra compra)
         {
             using (MySqlConnection conexao = CriarConexao())
@@ -199,6 +208,99 @@ namespace ProjetoParqueCSharp.DAO
                     item.quantidadeLanche
                 )
             );
+        }
+
+        // insere a compra e todos os objetos juntos
+        public int GravarCompra(Compra compra, Sacola sacola)
+        {
+            using var conexao = CriarConexao();
+            try
+            {
+                conexao.Open();
+                using var transacao = conexao.BeginTransaction();
+
+                // cria o registro na entidade compra
+                using var comandoCompra = CriarComando("p_inserirCompra", conexao);
+                comandoCompra.Transaction = transacao;
+                comandoCompra.Parameters.AddWithValue("compraPagar", compra.tipoPagamento);
+                comandoCompra.Parameters.AddWithValue("compraVisitante", compra.codVisitante);
+                comandoCompra.Parameters.AddWithValue("compraFuncionario", compra.codFuncionario);
+                comandoCompra.ExecuteNonQuery();
+
+                // recupera o último cod gerado (o que acabou de inserir)
+                using var comandoCodigo = conexao.CreateCommand();
+                comandoCodigo.Transaction = transacao;
+                comandoCodigo.CommandText = "select last_insert_id();";
+                int codCompra = Convert.ToInt32(comandoCodigo.ExecuteScalar());
+
+                foreach(ItemSacola item in sacola.itens)
+                {
+                    // switch para cada tipo de item - ingressos ou lanche
+                    string procedure;
+                    string prefixo;
+
+                    switch (item.tipoItem)
+                    {
+                        case "IngressoBrinquedo":
+                            procedure = "p_inserirCompraIB";
+                            prefixo = "cib";
+                            break;
+
+                        case "IngressoEvento":
+                            procedure = "p_inserirCompraIE";
+                            prefixo = "cie";
+                            break;
+
+                        default:
+                            mensagem = $"Tipo de item ainda não suportado: {item.tipoItem}.";
+                            return 0;
+
+                    }
+
+                    using var comandoItem = CriarComando(procedure, conexao);
+                    comandoItem.Transaction = transacao;
+                    comandoItem.Parameters.AddWithValue(prefixo + "Compra", codCompra);
+                    comandoItem.Parameters.AddWithValue(prefixo + "Ingresso", item.codItem);
+                    comandoItem.Parameters.AddWithValue(prefixo + "Quantidade", item.quantidade);
+                    comandoItem.ExecuteNonQuery();
+
+                }
+
+                // confirma transação após todos itens inseridos
+                transacao.Commit();
+                return codCompra;
+            }
+            catch (MySqlException erro)
+            {
+                mensagem = "Não foi possível gravar a compra: " + erro.Message;
+                return 0;
+            }
+        }
+
+        // Chama a procedure e confirma se a compra foi excluída.
+        public bool ExcluirCompra(int codigoCompra)
+        {
+            DataTable resultado = ExecutarConsulta(
+                "p_deletarCompra",
+                new MySqlParameter("deletarCompra", codigoCompra));
+
+            // Se a consulta falhou, ExecutarConsulta já guardou o erro em mensagem.
+            if (!resultado.Columns.Contains("linhasAfetadas") || resultado.Rows.Count == 0)
+            {
+                if (string.IsNullOrWhiteSpace(mensagem))
+                    mensagem = "A procedure não retornou o resultado da exclusão.";
+
+                return false;
+            }
+
+            // Zero indica que nenhuma compra tinha o código informado.
+            if (Convert.ToInt32(resultado.Rows[0]["linhasAfetadas"]) == 0)
+            {
+                mensagem = "A compra já não existe.";
+                return false;
+            }
+
+            return true;
         }
 
         private DataTable ExecutarConsulta(
