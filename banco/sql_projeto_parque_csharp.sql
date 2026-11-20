@@ -732,7 +732,8 @@ CREATE PROCEDURE `p_atualizarVisitante`(
 	IN `atualizarVisitante` INT,
 	IN `visitanteNome` VARCHAR(450),
 	IN `visitanteNascimento` DATE,
-	IN `email` VARCHAR(450)
+	IN `visitanteEmail` VARCHAR(450),
+	IN `visitanteSenha` VARCHAR(200)
 )
 BEGIN
 
@@ -743,9 +744,11 @@ BEGIN
 	
 	else
 	UPDATE visitante SET nomeVisitante = visitanteNome WHERE codVisitante = atualizarVisitante;
-	UPDATE visitante SET dataNascimento = visitanteNascimneto WHERE codVisitante = atualizarVisitante;
-	UPDATE visitante SET email = email WHERE codVisitante = atualizarVisitante;
-	SELECT * FROM visitante WHERE codVisitante = atualizarVisitante;
+	UPDATE visitante SET dataNascimento = visitanteNascimento WHERE codVisitante = atualizarVisitante;
+	UPDATE visitante SET email = visitanteEmail WHERE codVisitante = atualizarVisitante;
+	-- Senha nula mantém o hash que já está gravado.
+	UPDATE visitante SET senha = visitanteSenha WHERE codVisitante = atualizarVisitante AND visitanteSenha IS NOT NULL;
+	SELECT codVisitante, nomeVisitante, dataNascimento, email FROM visitante WHERE codVisitante = atualizarVisitante;
 	END if;
 
 END//
@@ -963,13 +966,17 @@ CREATE PROCEDURE `p_deletarVisitante`(
 )
 BEGIN
 SELECT COUNT(*) INTO @contador FROM visitante WHERE codVisitante = deletarVisitante;
+SELECT COUNT(*) INTO @compras FROM compra WHERE visitante_codVisitante = deletarVisitante;
 	
 	if(@contador = 0)
 		then 
 			SELECT "Não foi possivel realizar a exclusão, pois o código inserido é inexistente!!" AS erro;
+		elseif(@compras > 0)
+		then
+			SELECT "Não é possível excluir o visitante, pois ele possui compras registradas." AS erro;
 		ELSE
 			DELETE FROM visitante WHERE codVisitante = deletarVisitante;
-			SELECT * FROM visitante;
+			SELECT ROW_COUNT() AS linhasAfetadas;
 		END if;
 END//
 DELIMITER ;
@@ -1170,11 +1177,12 @@ DELIMITER //
 CREATE PROCEDURE `p_inserirVisitante`(
 	IN `novoVisitante` VARCHAR(450),
 	IN `visitanteNascimento` DATE,
-	IN `visitanteEmail` VARCHAR(450)
+	IN `visitanteEmail` VARCHAR(450),
+	IN `visitanteSenha` VARCHAR(200)
 )
 BEGIN
-	INSERT INTO visitante(nomeVisitante, dataNascimento, email) VALUES (novoVisitante, visitanteNascimento, visitanteEmail);
-	SELECT * FROM visitante;
+	INSERT INTO visitante(nomeVisitante, dataNascimento, email, senha) VALUES (novoVisitante, visitanteNascimento, visitanteEmail, visitanteSenha);
+	SELECT LAST_INSERT_ID() AS codVisitante;
 END//
 DELIMITER ;
 

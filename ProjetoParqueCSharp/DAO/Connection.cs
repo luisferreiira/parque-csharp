@@ -66,6 +66,92 @@ namespace ProjetoParqueCSharp.DAO
             );
         }
 
+        // Cadastra o visitante. A senha já deve chegar como hash.
+        public bool InserirVisitante(Visitante visitante)
+        {
+            DataTable resultado = ExecutarConsulta(
+                "p_inserirVisitante",
+                new MySqlParameter("novoVisitante", visitante.nomeVisitante),
+                new MySqlParameter("visitanteNascimento", visitante.dataNascimento.Date),
+                new MySqlParameter("visitanteEmail", (object?)visitante.email ?? DBNull.Value),
+                new MySqlParameter("visitanteSenha", (object?)visitante.senha ?? DBNull.Value)
+            );
+
+            // Se a consulta falhou, ExecutarConsulta já guardou o erro em mensagem.
+            if (!resultado.Columns.Contains("codVisitante") || resultado.Rows.Count == 0)
+            {
+                mensagem = TraduzirErroVisitante(mensagem);
+                return false;
+            }
+
+            mensagem = "Visitante cadastrado com sucesso.";
+            return true;
+        }
+
+        // Atualiza o visitante. Senha nula mantém o hash que já está no banco.
+        public bool AtualizarVisitante(Visitante visitante)
+        {
+            DataTable resultado = ExecutarConsulta(
+                "p_atualizarVisitante",
+                new MySqlParameter("atualizarVisitante", visitante.codVisitante),
+                new MySqlParameter("visitanteNome", visitante.nomeVisitante),
+                new MySqlParameter("visitanteNascimento", visitante.dataNascimento.Date),
+                new MySqlParameter("visitanteEmail", (object?)visitante.email ?? DBNull.Value),
+                new MySqlParameter("visitanteSenha", (object?)visitante.senha ?? DBNull.Value)
+            );
+
+            // A procedure devolve a coluna ERRO quando o código não existe.
+            if (resultado.Columns.Contains("ERRO") && resultado.Rows.Count > 0)
+            {
+                mensagem = Convert.ToString(resultado.Rows[0]["ERRO"]) ?? "";
+                return false;
+            }
+
+            if (!resultado.Columns.Contains("codVisitante"))
+            {
+                mensagem = TraduzirErroVisitante(mensagem);
+                return false;
+            }
+
+            mensagem = "Visitante atualizado com sucesso.";
+            return true;
+        }
+
+        // Chama a procedure e confirma se o visitante foi excluído.
+        public bool ExcluirVisitante(int codigoVisitante)
+        {
+            DataTable resultado = ExecutarConsulta(
+                "p_deletarVisitante",
+                new MySqlParameter("deletarVisitante", codigoVisitante));
+
+            // A procedure devolve a coluna erro quando o código não existe ou há compras.
+            if (resultado.Columns.Contains("erro") && resultado.Rows.Count > 0)
+            {
+                mensagem = Convert.ToString(resultado.Rows[0]["erro"]) ?? "";
+                return false;
+            }
+
+            if (!resultado.Columns.Contains("linhasAfetadas") || resultado.Rows.Count == 0)
+            {
+                if (string.IsNullOrWhiteSpace(mensagem))
+                    mensagem = "A procedure não retornou o resultado da exclusão.";
+
+                return false;
+            }
+
+            mensagem = "Visitante excluído com sucesso.";
+            return true;
+        }
+
+        // O e-mail é único na tabela visitante. Troca o erro do MySQL por um texto claro.
+        private static string TraduzirErroVisitante(string erro)
+        {
+            if (erro.Contains("Duplicate entry", StringComparison.OrdinalIgnoreCase))
+                return "Já existe um visitante cadastrado com este e-mail.";
+
+            return erro;
+        }
+
         public DataTable LoginFuncionario(string email)
         {
             return ExecutarConsulta(

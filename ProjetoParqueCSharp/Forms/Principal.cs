@@ -47,6 +47,9 @@ namespace ProjetoParqueCSharp.Forms
             // Abre a janela de seleção de visitante pelo botão da faixa da compra.
             btnSelecionarVisitante.Click += AbrirSelecaoVisitante;
 
+            // Abre o cadastro de visitantes pelo botão do menu lateral.
+            btnVisitantes.Click += AbrirCadastroVisitantes;
+
             // Liga o botão remover ao método que remove o item selecionado.
             btnRemoverItemSacola.Click += RemoverItemSacola;
 
@@ -71,6 +74,13 @@ namespace ProjetoParqueCSharp.Forms
         {
             using var historico = new HistoricoCompras();
             historico.ShowDialog(this);
+        }
+
+        // Abre o cadastro de visitantes sobre a tela de atendimento.
+        private void AbrirCadastroVisitantes(object? sender, EventArgs e)
+        {
+            using var cadastro = new GerenciarVisitantes();
+            cadastro.ShowDialog(this);
         }
 
         // Abre a lista e atualiza a compra quando o funcionário confirma a escolha.
