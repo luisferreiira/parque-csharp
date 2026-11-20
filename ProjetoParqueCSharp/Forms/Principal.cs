@@ -83,6 +83,45 @@ namespace ProjetoParqueCSharp.Forms
         {
             using var cadastro = new GerenciarVisitantes();
             cadastro.ShowDialog(this);
+
+            // O código abaixo executa quando a janela de cadastro fecha.
+
+            if (codVisitanteCompra is null)
+                return;
+
+            var dao = new Connection();
+            DataTable visitantes = dao.ListarVisitantes();
+
+            if (!visitantes.Columns.Contains("codVisitante"))
+            {
+                codVisitanteCompra = null;
+                lblVisitanteSelecionado.Text = "Selecione um visitante";
+
+                MessageBox.Show(
+                    this,
+                    "Não foi possível atualizar o visitante. Selecione novamente.");
+
+                return;
+            }
+
+            // Procura o visitante que estava selecionado para a compra.
+            foreach (DataRow visitante in visitantes.Rows)
+            {
+                int codigo = Convert.ToInt32(visitante["codVisitante"]);
+
+                if (codigo == codVisitanteCompra.Value)
+                {
+                    // Se o nome mudou no cadastro, atualiza o nome na tela.
+                    lblVisitanteSelecionado.Text =
+                        Convert.ToString(visitante["nomeVisitante"]) ?? "";
+
+                    return;
+                }
+            }
+
+            // Se não encontrou o código, o visitante foi excluído.
+            codVisitanteCompra = null;
+            lblVisitanteSelecionado.Text = "Selecione um visitante";
         }
 
         // Abre a lista e atualiza a compra quando o funcionário confirma a escolha.
