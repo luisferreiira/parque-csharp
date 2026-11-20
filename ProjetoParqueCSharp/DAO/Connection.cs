@@ -324,6 +324,8 @@ namespace ProjetoParqueCSharp.DAO
                     // switch para cada tipo de item - ingressos ou lanche
                     string procedure;
                     string prefixo;
+                    // nome do parâmetro do código do item (ingresso ou lanche)
+                    string parametroItem = "Ingresso";
 
                     switch (item.tipoItem)
                     {
@@ -337,6 +339,12 @@ namespace ProjetoParqueCSharp.DAO
                             prefixo = "cie";
                             break;
 
+                        case "Lanche":
+                            procedure = "p_inserirCompraLanche";
+                            prefixo = "cl";
+                            parametroItem = "Lanche";
+                            break;
+
                         default:
                             mensagem = $"Tipo de item ainda não suportado: {item.tipoItem}.";
                             return 0;
@@ -346,7 +354,7 @@ namespace ProjetoParqueCSharp.DAO
                     using var comandoItem = CriarComando(procedure, conexao);
                     comandoItem.Transaction = transacao;
                     comandoItem.Parameters.AddWithValue(prefixo + "Compra", codCompra);
-                    comandoItem.Parameters.AddWithValue(prefixo + "Ingresso", item.codItem);
+                    comandoItem.Parameters.AddWithValue(prefixo + parametroItem, item.codItem);
                     comandoItem.Parameters.AddWithValue(prefixo + "Quantidade", item.quantidade);
                     comandoItem.ExecuteNonQuery();
 

@@ -31,6 +31,7 @@ namespace ProjetoParqueCSharp.Forms
             picLogoMenu.Image = IdentidadeVisual.LogoMenu;
             dgvBrinquedos.CellContentClick += DgvBrinquedos_CellContentClick;
             dgvEventos.CellContentClick += DgvEventos_CellContentClick;
+            dgvLanches.CellContentClick += DgvLanches_CellContentClick;
 
 
             // função de estilo para arredondar bordas
@@ -40,6 +41,7 @@ namespace ProjetoParqueCSharp.Forms
             // chama os métodos que carregam os ingressos
             Shown += CarregarIngressosBrinquedos;
             Shown += CarregarIngressosEventos;
+            Shown += CarregarLanches;
 
             // Liga o botão Ver histórico à abertura da janela de compras.
             btnVerHistorico.Click += AbrirHistoricoCompras;
@@ -195,7 +197,33 @@ namespace ProjetoParqueCSharp.Forms
             }
         }
 
-        // INSERIR CARREGARLANCHES AQUI
+        // Carrega os lanches
+        private void CarregarLanches(object? sender, EventArgs e)
+        {
+            var dao = new Connection();
+            var lanches = dao.ListarLanches();
+
+            // Confere se a consulta retornou as colunas esperadas.
+            if (!lanches.Columns.Contains("codLanche"))
+            {
+                MessageBox.Show(this, $"Falha ao listar lanches.\n{dao.mensagem}");
+                return;
+            }
+
+            dgvLanches.Rows.Clear();
+
+            foreach (DataRow lanche in lanches.Rows)
+            {
+                // Preenche a grade na ordem do Designer e começa a quantidade em 1.
+                dgvLanches.Rows.Add(
+                    Convert.ToString(lanche["nomeLanche"]),
+                    Convert.ToString(lanche["descricao"]),
+                    Convert.ToDecimal(lanche["precoLanche"]),
+                    1,
+                    null,
+                    Convert.ToInt32(lanche["codLanche"]));
+            }
+        }
 
         // Lê o ingresso da aba Brinquedos quando o funcionário clica em Adicionar.
         private void DgvBrinquedos_CellContentClick(object? sender, DataGridViewCellEventArgs e)
@@ -253,7 +281,30 @@ namespace ProjetoParqueCSharp.Forms
                 "IngressoEvento", codigo, $"{evento} — {tipoIngresso}", preco, quantidade);
         }
 
-        // inserir dgvlanches_cellcontentclick aqui
+        // Lê o lanche da aba Lanches quando o funcionário clica em Adicionar.
+        private void DgvLanches_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            // Ignora cliques no cabeçalho ou em outra coluna.
+            if (e.RowIndex < 0 || e.ColumnIndex != colAdicionarLanche.Index)
+                return;
+
+            var linha = dgvLanches.Rows[e.RowIndex];
+            string? textoQuantidade = Convert.ToString(linha.Cells[colQtdLanche.Index].Value);
+
+            // Só aceita quantidades inteiras maiores que zero.
+            if (!int.TryParse(textoQuantidade, out int quantidade) || quantidade <= 0)
+            {
+                MessageBox.Show(this, "Digite uma quantidade inteira maior que zero.");
+                return;
+            }
+
+            // Lê o código oculto do lanche e os dados exibidos na linha.
+            int codigo = Convert.ToInt32(linha.Cells[colCodLanche.Index].Value);
+            decimal preco = Convert.ToDecimal(linha.Cells[colPrecoLanche.Index].Value);
+            string lanche = Convert.ToString(linha.Cells[colLanche.Index].Value) ?? "";
+
+            AdicionarItemSacola("Lanche", codigo, lanche, preco, quantidade);
+        }
 
         // Adiciona um novo item ou soma a quantidade a um item que já está na sacola.
         private void AdicionarItemSacola(

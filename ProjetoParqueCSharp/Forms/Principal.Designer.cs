@@ -31,6 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             pnlMenuLateral = new Panel();
             picLogoMenu = new PictureBox();
             pnlFuncionarioLogado = new Panel();
@@ -70,6 +71,13 @@
             colAdicionarEvento = new DataGridViewButtonColumn();
             colCodIngressoEvento = new DataGridViewTextBoxColumn();
             tabLanches = new TabPage();
+            dgvLanches = new DataGridView();
+            colLanche = new DataGridViewTextBoxColumn();
+            colDescricaoLanche = new DataGridViewTextBoxColumn();
+            colPrecoLanche = new DataGridViewTextBoxColumn();
+            colQtdLanche = new DataGridViewTextBoxColumn();
+            colAdicionarLanche = new DataGridViewButtonColumn();
+            colCodLanche = new DataGridViewTextBoxColumn();
             pnlVisitanteCompra = new Panel();
             btnSelecionarVisitante = new Button();
             lblVisitanteSelecionado = new Label();
@@ -88,6 +96,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvBrinquedos).BeginInit();
             tabEventos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEventos).BeginInit();
+            tabLanches.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvLanches).BeginInit();
             pnlVisitanteCompra.SuspendLayout();
             SuspendLayout();
             // 
@@ -541,12 +551,88 @@
             // 
             // tabLanches
             // 
+            tabLanches.Controls.Add(dgvLanches);
             tabLanches.Location = new Point(4, 29);
             tabLanches.Name = "tabLanches";
+            tabLanches.Padding = new Padding(3);
             tabLanches.Size = new Size(456, 387);
             tabLanches.TabIndex = 2;
             tabLanches.Text = "Lanches";
             tabLanches.UseVisualStyleBackColor = true;
+            // 
+            // dgvLanches
+            // 
+            dgvLanches.AllowUserToAddRows = false;
+            dgvLanches.AllowUserToDeleteRows = false;
+            dgvLanches.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvLanches.BackgroundColor = Color.White;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(0, 91, 181);
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(0, 91, 181);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dgvLanches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dgvLanches.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvLanches.Columns.AddRange(new DataGridViewColumn[] { colLanche, colDescricaoLanche, colPrecoLanche, colQtdLanche, colAdicionarLanche, colCodLanche });
+            dgvLanches.Dock = DockStyle.Fill;
+            dgvLanches.EnableHeadersVisualStyles = false;
+            dgvLanches.Location = new Point(3, 3);
+            dgvLanches.Name = "dgvLanches";
+            dgvLanches.RowHeadersVisible = false;
+            dgvLanches.RowHeadersWidth = 51;
+            dgvLanches.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvLanches.Size = new Size(450, 381);
+            dgvLanches.TabIndex = 0;
+            // 
+            // colLanche
+            // 
+            colLanche.HeaderText = "Lanche";
+            colLanche.MinimumWidth = 6;
+            colLanche.Name = "colLanche";
+            colLanche.ReadOnly = true;
+            colLanche.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colDescricaoLanche
+            // 
+            colDescricaoLanche.HeaderText = "Descrição";
+            colDescricaoLanche.MinimumWidth = 6;
+            colDescricaoLanche.Name = "colDescricaoLanche";
+            colDescricaoLanche.ReadOnly = true;
+            colDescricaoLanche.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colPrecoLanche
+            // 
+            colPrecoLanche.HeaderText = "Preço unitário";
+            colPrecoLanche.MinimumWidth = 6;
+            colPrecoLanche.Name = "colPrecoLanche";
+            colPrecoLanche.ReadOnly = true;
+            colPrecoLanche.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colQtdLanche
+            // 
+            colQtdLanche.HeaderText = "Qtd.";
+            colQtdLanche.MinimumWidth = 6;
+            colQtdLanche.Name = "colQtdLanche";
+            colQtdLanche.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colAdicionarLanche
+            // 
+            colAdicionarLanche.HeaderText = "Ação";
+            colAdicionarLanche.MinimumWidth = 6;
+            colAdicionarLanche.Name = "colAdicionarLanche";
+            colAdicionarLanche.ReadOnly = true;
+            colAdicionarLanche.Text = "Adicionar";
+            colAdicionarLanche.UseColumnTextForButtonValue = true;
+            // 
+            // colCodLanche
+            // 
+            colCodLanche.HeaderText = "Código do lanche";
+            colCodLanche.MinimumWidth = 6;
+            colCodLanche.Name = "colCodLanche";
+            colCodLanche.ReadOnly = true;
+            colCodLanche.Visible = false;
             // 
             // pnlVisitanteCompra
             // 
@@ -641,6 +727,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvBrinquedos).EndInit();
             tabEventos.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvEventos).EndInit();
+            tabLanches.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvLanches).EndInit();
             pnlVisitanteCompra.ResumeLayout(false);
             pnlVisitanteCompra.PerformLayout();
             ResumeLayout(false);
@@ -683,6 +771,13 @@
         private DataGridViewTextBoxColumn colQtdEvento;
         private DataGridViewButtonColumn colAdicionarEvento;
         private DataGridViewTextBoxColumn colCodIngressoEvento;
+        private DataGridView dgvLanches;
+        private DataGridViewTextBoxColumn colLanche;
+        private DataGridViewTextBoxColumn colDescricaoLanche;
+        private DataGridViewTextBoxColumn colPrecoLanche;
+        private DataGridViewTextBoxColumn colQtdLanche;
+        private DataGridViewButtonColumn colAdicionarLanche;
+        private DataGridViewTextBoxColumn colCodLanche;
         private DataGridViewTextBoxColumn colItemSacola;
         private DataGridViewTextBoxColumn colQtdSacola;
         private DataGridViewTextBoxColumn colSubtotalSacola;
