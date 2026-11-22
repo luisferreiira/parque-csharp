@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -144,46 +143,21 @@ namespace ProjetoParqueCSharp.Forms
         {
             var dao = new Connection();
 
-            // Confere se as consultas retornaram as colunas esperadas.
-
-            var brinquedos = dao.ListarBrinquedos();
-
-            if (!brinquedos.Columns.Contains("codBrinquedo"))
-            {
-                MessageBox.Show(this, $"Falha ao listar brinquedos.\n{dao.mensagem}");
-                return;
-            }
-
             var ingressosBrinquedos = dao.ListarIngressosBrinquedos();
 
-            if (!ingressosBrinquedos.Columns.Contains("codIngresso"))
+            if (!ingressosBrinquedos.Columns.Contains("nomeBrinquedo"))
             {
                 MessageBox.Show(this, $"Falha ao listar ingressos de brinquedos.\n{dao.mensagem}");
                 return;
-            }
-
-            // Organiza os nomes pelo código do brinquedo para encontrar cada um pelo ingresso.
-            var nomesPorCodigo = new Dictionary<int, string>();
-
-            foreach (DataRow brinquedo in brinquedos.Rows)
-            {
-                int codigo = Convert.ToInt32(brinquedo["codBrinquedo"]);
-                nomesPorCodigo[codigo] = Convert.ToString(brinquedo["nomeBrinquedo"]) ?? "";
             }
 
             dgvBrinquedos.Rows.Clear();
 
             foreach (DataRow ingresso in ingressosBrinquedos.Rows)
             {
-                // O ingresso guarda o código do brinquedo ao qual pertence.
-                int codBrinquedo = Convert.ToInt32(ingresso["brinquedo_codBrinquedo"]);
-
-                if (!nomesPorCodigo.TryGetValue(codBrinquedo, out string? nomeBrinquedo))
-                    continue;
-
                 // Preenche a grade na ordem do Designer e começa a quantidade em 1.
                 dgvBrinquedos.Rows.Add(
-                    nomeBrinquedo,
+                    Convert.ToString(ingresso["nomeBrinquedo"]),
                     Convert.ToString(ingresso["tipoIngresso"]),
                     Convert.ToDecimal(ingresso["valor"]),
                     1,
@@ -196,38 +170,22 @@ namespace ProjetoParqueCSharp.Forms
         private void CarregarIngressosEventos(object? sender, EventArgs e)
         {
             var dao = new Connection();
-            var eventos = dao.ListarEventos();
             var ingressosEventos = dao.ListarIngressosEventos();
 
             // Confere se as consultas retornaram as colunas esperadas.
-            if (!eventos.Columns.Contains("codEventos") || !ingressosEventos.Columns.Contains("codIngresso"))
+            if (!ingressosEventos.Columns.Contains("nomeEvento"))
             {
                 MessageBox.Show(this, "Não foi possível carregar os ingressos de evento");
                 return;
-            }
-
-            // Organiza os nomes pelo código do evento para encontrar cada um pelo ingresso.
-            var nomesPorCodigo = new Dictionary<int, string>();
-
-            foreach (DataRow evento in eventos.Rows)
-            {
-                int codigo = Convert.ToInt32(evento["codEventos"]);
-                nomesPorCodigo[codigo] = Convert.ToString(evento["nomeEvento"]) ?? "";
             }
 
             dgvEventos.Rows.Clear();
 
             foreach (DataRow ingresso in ingressosEventos.Rows)
             {
-                // O ingresso guarda o código do brinquedo ao qual pertence.
-                int codEvento = Convert.ToInt32(ingresso["eventos_codEventos"]);
-
-                if (!nomesPorCodigo.TryGetValue(codEvento, out string? nomeEvento))
-                    continue;
-
                 // Preenche a grade na ordem do Designer e começa a quantidade em 1.
                 dgvEventos.Rows.Add(
-                    nomeEvento,
+                    Convert.ToString(ingresso["nomeEvento"]),
                     Convert.ToString(ingresso["tipoIngresso"]),
                     Convert.ToDecimal(ingresso["valor"]),
                     1,

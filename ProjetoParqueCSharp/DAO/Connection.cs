@@ -160,19 +160,9 @@ namespace ProjetoParqueCSharp.DAO
             );
         }
 
-        public DataTable ListarBrinquedos()
-        {
-            return ExecutarConsulta("p_listarBrinquedos");
-        }
-
         public DataTable ListarIngressosBrinquedos()
         {
             return ExecutarConsulta("p_listarIngressosBrinquedos");
-        }
-
-        public DataTable ListarEventos()
-        {
-            return ExecutarConsulta("p_listarEventos");
         }
 
         public DataTable ListarIngressosEventos()

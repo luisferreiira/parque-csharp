@@ -1234,7 +1234,9 @@ DROP PROCEDURE IF EXISTS `p_listarIngressosBrinquedos`;
 DELIMITER //
 CREATE PROCEDURE `p_listarIngressosBrinquedos`()
 BEGIN
-	SELECT * FROM ingressobrinquedos;
+	SELECT i.*, b.nomeBrinquedo
+	FROM ingressobrinquedos AS i
+	INNER JOIN brinquedo AS b ON b.codBrinquedo = i.brinquedo_codBrinquedo;
 END//
 DELIMITER ;
 
@@ -1243,7 +1245,9 @@ DROP PROCEDURE IF EXISTS `p_listarIngressosEventos`;
 DELIMITER //
 CREATE PROCEDURE `p_listarIngressosEventos`()
 BEGIN
-	SELECT * FROM ingressoeventos;
+	SELECT i.*, e.nomeEvento
+	FROM ingressoeventos AS i
+	INNER JOIN eventos AS e ON e.codEventos = i.eventos_codEventos;
 END//
 DELIMITER ;
 
