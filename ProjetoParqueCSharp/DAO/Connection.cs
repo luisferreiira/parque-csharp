@@ -66,7 +66,7 @@ namespace ProjetoParqueCSharp.DAO
             );
         }
 
-        // Cadastra o visitante. A senha já deve chegar como hash.
+        // Cadastra o visitante
         public bool InserirVisitante(Visitante visitante)
         {
             DataTable resultado = ExecutarConsulta(
@@ -77,7 +77,7 @@ namespace ProjetoParqueCSharp.DAO
                 new MySqlParameter("visitanteSenha", (object?)visitante.senha ?? DBNull.Value)
             );
 
-            // Se a consulta falhou, ExecutarConsulta já guardou o erro em mensagem.
+            
             if (!resultado.Columns.Contains("codVisitante") || resultado.Rows.Count == 0)
             {
                 mensagem = TraduzirErroVisitante(mensagem);
@@ -88,7 +88,7 @@ namespace ProjetoParqueCSharp.DAO
             return true;
         }
 
-        // Atualiza o visitante. Senha nula mantém o hash que já está no banco.
+        // Atualiza o visitante
         public bool AtualizarVisitante(Visitante visitante)
         {
             DataTable resultado = ExecutarConsulta(
@@ -100,7 +100,7 @@ namespace ProjetoParqueCSharp.DAO
                 new MySqlParameter("visitanteSenha", (object?)visitante.senha ?? DBNull.Value)
             );
 
-            // A procedure devolve a coluna ERRO quando o código não existe.
+            // A procedure devolve
             if (resultado.Columns.Contains("ERRO") && resultado.Rows.Count > 0)
             {
                 mensagem = Convert.ToString(resultado.Rows[0]["ERRO"]) ?? "";
@@ -117,14 +117,14 @@ namespace ProjetoParqueCSharp.DAO
             return true;
         }
 
-        // Chama a procedure e confirma se o visitante foi excluído.
+       
         public bool ExcluirVisitante(int codigoVisitante)
         {
             DataTable resultado = ExecutarConsulta(
                 "p_deletarVisitante",
                 new MySqlParameter("deletarVisitante", codigoVisitante));
 
-            // A procedure devolve a coluna erro quando o código não existe ou há compras.
+            // A procedure devolve
             if (resultado.Columns.Contains("erro") && resultado.Rows.Count > 0)
             {
                 mensagem = Convert.ToString(resultado.Rows[0]["erro"]) ?? "";
@@ -143,7 +143,7 @@ namespace ProjetoParqueCSharp.DAO
             return true;
         }
 
-        // O e-mail é único na tabela visitante. Troca o erro do MySQL por um texto claro.
+        // e mail existente erro
         private static string TraduzirErroVisitante(string erro)
         {
             if (erro.Contains("Duplicate entry", StringComparison.OrdinalIgnoreCase))
@@ -180,7 +180,7 @@ namespace ProjetoParqueCSharp.DAO
             return ExecutarConsulta("p_listarCompras");
         }
 
-        // Consulta apenas os itens da compra escolhida no histórico.
+        // itens compra
         public DataTable ListarItensCompra(int codigoCompra)
         {
             return ExecutarConsulta(
@@ -239,37 +239,23 @@ namespace ProjetoParqueCSharp.DAO
             }
         }
 
-        public bool InserirCompraIngressoBrinquedo(
-            CompraIngressoBrinquedo item)
+        public bool InserirCompraIngressoBrinquedo(CompraIngressoBrinquedo item)
         {
             return ExecutarComando(
                 "p_inserirCompraIB",
                 new MySqlParameter("cibCompra", item.compra_codCompra),
-                new MySqlParameter(
-                    "cibIngresso",
-                    item.ingressoBrinquedos_codIngresso
-                ),
-                new MySqlParameter(
-                    "cibQuantidade",
-                    item.quantIngBrinq
-                )
+                new MySqlParameter("cibIngresso",item.ingressoBrinquedos_codIngresso),
+                new MySqlParameter("cibQuantidade",item.quantIngBrinq)
             );
         }
 
-        public bool InserirCompraIngressoEvento(
-            CompraIngressoEvento item)
+        public bool InserirCompraIngressoEvento(CompraIngressoEvento item)
         {
             return ExecutarComando(
                 "p_inserirCompraIE",
                 new MySqlParameter("cieCompra", item.compra_codCompra),
-                new MySqlParameter(
-                    "cieIngresso",
-                    item.ingressoEventos_codIngresso
-                ),
-                new MySqlParameter(
-                    "cieQuantidade",
-                    item.quantIngEvent
-                )
+                new MySqlParameter("cieIngresso",item.ingressoEventos_codIngresso),
+                new MySqlParameter("cieQuantidade",item.quantIngEvent)
             );
         }
 
@@ -279,14 +265,11 @@ namespace ProjetoParqueCSharp.DAO
                 "p_inserirCompraLanche",
                 new MySqlParameter("clCompra", item.compra_codCompra),
                 new MySqlParameter("clLanche", item.lanche_codLanche),
-                new MySqlParameter(
-                    "clQuantidade",
-                    item.quantidadeLanche
-                )
+                new MySqlParameter("clQuantidade",item.quantidadeLanche)
             );
         }
 
-        // insere a compra e todos os objetos juntos
+        // insere compra
         public int GravarCompra(Compra compra, Sacola sacola)
         {
             using var conexao = CriarConexao();
@@ -295,7 +278,7 @@ namespace ProjetoParqueCSharp.DAO
                 conexao.Open();
                 using var transacao = conexao.BeginTransaction();
 
-                // cria o registro na entidade compra
+                // cria registro compra
                 using var comandoCompra = CriarComando("p_inserirCompra", conexao);
                 comandoCompra.Transaction = transacao;
                 comandoCompra.Parameters.AddWithValue("compraPagar", compra.tipoPagamento);
@@ -303,18 +286,19 @@ namespace ProjetoParqueCSharp.DAO
                 comandoCompra.Parameters.AddWithValue("compraFuncionario", compra.codFuncionario);
                 comandoCompra.ExecuteNonQuery();
 
-                // recupera o último cod gerado (o que acabou de inserir)
+                // recupera último id
                 using var comandoCodigo = conexao.CreateCommand();
                 comandoCodigo.Transaction = transacao;
                 comandoCodigo.CommandText = "select last_insert_id();";
                 int codCompra = Convert.ToInt32(comandoCodigo.ExecuteScalar());
 
+                // percorre itens sacola
                 foreach(ItemSacola item in sacola.itens)
                 {
-                    // switch para cada tipo de item - ingressos ou lanche
+                    // switch tipo item
                     string procedure;
                     string prefixo;
-                    // nome do parâmetro do código do item (ingresso ou lanche)
+                    // parâmetro padrão
                     string parametroItem = "Ingresso";
 
                     switch (item.tipoItem)
@@ -341,6 +325,7 @@ namespace ProjetoParqueCSharp.DAO
 
                     }
 
+                    // executa procedure correspondente
                     using var comandoItem = CriarComando(procedure, conexao);
                     comandoItem.Transaction = transacao;
                     comandoItem.Parameters.AddWithValue(prefixo + "Compra", codCompra);
@@ -350,7 +335,7 @@ namespace ProjetoParqueCSharp.DAO
 
                 }
 
-                // confirma transação após todos itens inseridos
+                // confirma transação
                 transacao.Commit();
                 return codCompra;
             }
@@ -361,14 +346,14 @@ namespace ProjetoParqueCSharp.DAO
             }
         }
 
-        // Chama a procedure e confirma se a compra foi excluída.
+        // Chama a procedure
         public bool ExcluirCompra(int codigoCompra)
         {
             DataTable resultado = ExecutarConsulta(
                 "p_deletarCompra",
                 new MySqlParameter("deletarCompra", codigoCompra));
 
-            // Se a consulta falhou, ExecutarConsulta já guardou o erro em mensagem.
+            // Se a consulta
             if (!resultado.Columns.Contains("linhasAfetadas") || resultado.Rows.Count == 0)
             {
                 if (string.IsNullOrWhiteSpace(mensagem))
@@ -377,7 +362,7 @@ namespace ProjetoParqueCSharp.DAO
                 return false;
             }
 
-            // Zero indica que nenhuma compra tinha o código informado.
+            // Zero indica que
             if (Convert.ToInt32(resultado.Rows[0]["linhasAfetadas"]) == 0)
             {
                 mensagem = "A compra já não existe.";
@@ -387,6 +372,7 @@ namespace ProjetoParqueCSharp.DAO
             return true;
         }
 
+        // prática procedure select
         private DataTable ExecutarConsulta(
             string nomeProcedure,
             params MySqlParameter[] parametros)
@@ -423,6 +409,7 @@ namespace ProjetoParqueCSharp.DAO
             return tabela;
         }
 
+        // prática consulta CrUD
         private bool ExecutarComando(
             string nomeProcedure,
             params MySqlParameter[] parametros)

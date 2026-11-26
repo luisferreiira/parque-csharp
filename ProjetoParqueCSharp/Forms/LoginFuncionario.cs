@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-// Permite consultar o funcionário e verificar a senha.
+// Permite consultar o
 using ProjetoParqueCSharp.DAO;
 using ProjetoParqueCSharp.Service;
 
@@ -13,8 +13,8 @@ namespace ProjetoParqueCSharp.Forms
 {
     public partial class LoginFuncionario : Form
     {
+        // passar parâmetro principal
         public int codFuncionarioLogado { get; private set; }
-        // Guarda os textos que serão exibidos no menu do Principal.
         public string NomeFuncionarioLogado { get; private set; } = "";
         public string NomeCargoLogado { get; private set; } = "";
         public LoginFuncionario()
@@ -24,13 +24,13 @@ namespace ProjetoParqueCSharp.Forms
             btnEntrar.Click += Entrar;
         }
 
-        // busca funcionário por email e confirma senha
+        // busca funcionário email
         private void Entrar(object? sender, EventArgs e)
         {
             string email = txtEmail.Text.Trim();
             string senha = txtSenha.Text;
 
-            // confere se campos não são nulos
+            // confere se campos
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
             {
                 MessageBox.Show(this, "Preencha o e-mail e a senha.");
@@ -49,7 +49,7 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // se email ou senha incorretos
+            // email não encontrado
             if (funcionarios.Rows.Count == 0)
             {
                 MessageBox.Show(this, "E-mail ou senha inválidos.");
@@ -65,8 +65,7 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // Lê o nome do funcionário e o nome do cargo retornados pela consulta.
-            // salva o cod 
+            // salva pra passar
             codFuncionarioLogado = Convert.ToInt32(funcionario["codFuncionario"]);
             NomeFuncionarioLogado = Convert.ToString(funcionario["nomeFuncionario"]) ?? "";
             NomeCargoLogado = Convert.ToString(funcionario["nomeCargo"]) ?? "";

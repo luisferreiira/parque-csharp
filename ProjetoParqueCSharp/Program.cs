@@ -6,13 +6,13 @@ namespace ProjetoParqueCSharp
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        // The main entry
         /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            // To customize application
+            // see https aka
             ApplicationConfiguration.Initialize();
 
             while (true) { 
@@ -21,21 +21,21 @@ namespace ProjetoParqueCSharp
 
             using (var login = new LoginFuncionario())
             {
-                // Encerra a abertura do programa se o usuário fechar a janela de login.
+                // Encerra a abertura
                 if (login.ShowDialog() != DialogResult.OK)
                     return;
 
-                // pega cod do funcionário após validar senha
+                // passa entre forms
                 codigoFuncionario = login.codFuncionarioLogado;
                 nomeFuncionario = login.NomeFuncionarioLogado;
                 nomeCargo = login.NomeCargoLogado;
             }
 
-            // abre tela principal de atendimento
+            // abre tela principal
             using var principal = new Principal(codigoFuncionario, nomeFuncionario, nomeCargo);
             Application.Run(principal);
 
-            // O X encerra o programa. O botão Sair volta ao login.
+            // X encerra
             if (!principal.voltarAoLogin)
                 return;
 

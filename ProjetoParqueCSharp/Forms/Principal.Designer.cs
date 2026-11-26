@@ -1,4 +1,4 @@
-﻿namespace ProjetoParqueCSharp.Forms
+namespace ProjetoParqueCSharp.Forms
 {
     partial class Principal
     {
@@ -8,9 +8,9 @@
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        // Clean up any
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        // param name disposing
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,8 +23,8 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        // Required method for
+        // the contents of
         /// </summary>
         private void InitializeComponent()
         {

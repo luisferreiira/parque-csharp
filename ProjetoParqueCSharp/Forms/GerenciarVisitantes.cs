@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-// Permite consultar o banco e gerar o hash da senha.
+// Permite consultar banco
 using ProjetoParqueCSharp.DAO;
 using ProjetoParqueCSharp.Model;
 using ProjetoParqueCSharp.Service;
@@ -14,7 +14,7 @@ namespace ProjetoParqueCSharp.Forms
 {
     public partial class GerenciarVisitantes : Form
     {
-        // Guarda o código do visitante em edição. Null indica um novo cadastro.
+        // Guarda codVisitanteEdicao
         private int? codVisitanteEdicao;
 
         public GerenciarVisitantes()
@@ -22,19 +22,19 @@ namespace ProjetoParqueCSharp.Forms
             InitializeComponent();
             Icon = IdentidadeVisual.Icone;
 
-            // O nascimento não pode ser uma data futura.
+            // nascimento não posterior
             dtpNascimentoVisitante.MaxDate = DateTime.Today;
 
-            // Carrega os visitantes quando a janela aparece.
+            // Carrega os visitantes
             Shown += (_, _) => CarregarVisitantes();
 
-            // Pesquisa no banco quando o funcionário aperta Enter na busca.
+            // Pesquisa banco enter
             txtBuscarVisitante.KeyDown += BuscarAoApertarEnter;
 
-            // Preenche os campos com o visitante escolhido na grade.
+            // Preenche campos seleção
             dgvVisitantes.SelectionChanged += PreencherVisitanteSelecionado;
 
-            // Liga os botões aos métodos do cadastro.
+            // Liga os botões
             btnNovoVisitante.Click += (_, _) => LimparCampos();
             btnSalvarVisitante.Click += SalvarVisitante;
             btnExcluirVisitante.Click += ExcluirVisitante;
@@ -42,7 +42,7 @@ namespace ProjetoParqueCSharp.Forms
             LimparCampos();
         }
 
-        // Lista todos os visitantes ou só os que correspondem à busca.
+        // Lista todos
         private void CarregarVisitantes()
         {
             var dao = new Connection();
@@ -52,7 +52,7 @@ namespace ProjetoParqueCSharp.Forms
                 ? dao.ListarVisitantes()
                 : dao.BuscarVisitante(busca);
 
-            // Se a consulta falhar, o DAO retorna uma tabela sem as colunas esperadas.
+            // consulta vier errada
             if (!visitantes.Columns.Contains("codVisitante"))
             {
                 MessageBox.Show(this, $"Não foi possível carregar os visitantes.\n{dao.mensagem}");
@@ -63,7 +63,7 @@ namespace ProjetoParqueCSharp.Forms
 
             foreach (DataRow linha in visitantes.Rows)
             {
-                // A senha não é lida: a grade mostra apenas nome, e-mail e nascimento.
+                // senha nao vem
                 var visitante = new Visitante
                 {
                     codVisitante = Convert.ToInt32(linha["codVisitante"]),
@@ -77,11 +77,11 @@ namespace ProjetoParqueCSharp.Forms
                     visitante.email ?? "",
                     visitante.dataNascimento.ToString("dd/MM/yyyy"));
 
-                // Guarda o visitante na linha para preencher os campos na edição.
+                // Guarda o visitante
                 dgvVisitantes.Rows[indice].Tag = visitante;
             }
 
-            // Começa sem seleção para não abrir um visitante em edição sem querer.
+            // Começa sem seleção
             dgvVisitantes.ClearSelection();
             LimparCampos();
         }
@@ -91,37 +91,43 @@ namespace ProjetoParqueCSharp.Forms
             if (e.KeyCode != Keys.Enter)
                 return;
 
-            // Evita o som do Windows ao apertar Enter na caixa de texto.
+            // Evita o som
             e.SuppressKeyPress = true;
             CarregarVisitantes();
         }
 
-        // Mostra nos campos os dados do visitante selecionado.
+        // Mostra nos campos
         private void PreencherVisitanteSelecionado(object? sender, EventArgs e)
         {
+            // quantidade selecionada
             if (dgvVisitantes.SelectedRows.Count == 0)
                 return;
 
+            // nao é visitante
             if (dgvVisitantes.SelectedRows[0].Tag is not Visitante visitante)
                 return;
 
+            // preenche pra editar
             codVisitanteEdicao = visitante.codVisitante;
             txtNomeVisitante.Text = visitante.nomeVisitante;
             txtEmailVisitante.Text = visitante.email ?? "";
             txtSenhaVisitante.Clear();
 
-            // Datas futuras não cabem no DateTimePicker. Usa o limite nesse caso.
+            // Datas futuras não
             dtpNascimentoVisitante.Value = visitante.dataNascimento > dtpNascimentoVisitante.MaxDate
                 ? dtpNascimentoVisitante.MaxDate
                 : visitante.dataNascimento;
 
+            // altera label form
             lblDadosVisitante.Text = "Editar visitante";
             lblDicaSenha.Text = "Deixe em branco para manter a senha atual.";
             btnSalvarVisitante.Text = "Salvar alterações";
+
+            // ativa botao excluir
             btnExcluirVisitante.Enabled = true;
         }
 
-        // Prepara os campos para um novo cadastro.
+        // Prepara os campos
         private void LimparCampos()
         {
             codVisitanteEdicao = null;
@@ -140,13 +146,15 @@ namespace ProjetoParqueCSharp.Forms
             txtNomeVisitante.Focus();
         }
 
-        // Valida os campos e cadastra ou atualiza o visitante.
+        // Valida os campos
         private void SalvarVisitante(object? sender, EventArgs e)
         {
             string nome = txtNomeVisitante.Text.Trim();
             string email = txtEmailVisitante.Text.Trim();
             string senha = txtSenhaVisitante.Text;
             DateTime nascimento = dtpNascimentoVisitante.Value.Date;
+
+            // true senão edição
             bool novoCadastro = codVisitanteEdicao is null;
 
             if (string.IsNullOrWhiteSpace(nome))
@@ -162,7 +170,7 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // O e-mail é opcional, mas precisa ter um formato válido quando preenchido.
+            
             if (email.Length > 0 && !EmailValido(email))
             {
                 MessageBox.Show(this, "Digite um e-mail válido ou deixe o campo em branco.");
@@ -170,7 +178,7 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // No cadastro a senha é obrigatória. Na edição, em branco mantém a atual.
+            
             if (novoCadastro && string.IsNullOrWhiteSpace(senha))
             {
                 MessageBox.Show(this, "Digite uma senha para o visitante.");
@@ -191,14 +199,15 @@ namespace ProjetoParqueCSharp.Forms
                 nomeVisitante = nome,
                 dataNascimento = nascimento,
                 email = email.Length > 0 ? email : null,
-                // Senha nula na edição preserva o hash gravado no banco.
+                // 
                 senha = senha.Length > 0 ? Hash.CriarHash(senha) : null
             };
 
-            // Limpa a senha digitada assim que o hash foi gerado.
+            // Limpa a senha
             txtSenhaVisitante.Clear();
 
             var dao = new Connection();
+            // false edita 
             bool gravou = novoCadastro
                 ? dao.InserirVisitante(visitante)
                 : dao.AtualizarVisitante(visitante);
@@ -213,7 +222,7 @@ namespace ProjetoParqueCSharp.Forms
             CarregarVisitantes();
         }
 
-        // Confirma e exclui o visitante selecionado.
+        // Confirma e exclui
         private void ExcluirVisitante(object? sender, EventArgs e)
         {
             if (dgvVisitantes.SelectedRows.Count == 0
@@ -223,7 +232,7 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // Mostra o nome para o funcionário conferir antes de excluir.
+            // messagebox confirmação
             var resposta = MessageBox.Show(
                 this,
                 $"Excluir o visitante {visitante.nomeVisitante}?",
@@ -237,7 +246,7 @@ namespace ProjetoParqueCSharp.Forms
 
             var dao = new Connection();
 
-            // A procedure recusa a exclusão quando o visitante tem compras.
+            // A procedure recusa
             if (!dao.ExcluirVisitante(visitante.codVisitante))
             {
                 MessageBox.Show(this, dao.mensagem, "Erro ao excluir visitante");

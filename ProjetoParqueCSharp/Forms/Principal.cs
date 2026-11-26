@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -14,54 +14,59 @@ namespace ProjetoParqueCSharp.Forms
 {
     public partial class Principal : Form
     {
+        // sacola instancia inicial
         private readonly Sacola sacola = new Sacola();
-        // Guarda o código do visitante da compra. Null indica que ninguém foi escolhido.
+        
         private int? codVisitanteCompra;
 
-        // cod do funcionário
+        // codFuncionário vindo Login
         private readonly int codFuncionarioLogado;
+
+        // logica botao sair
         public bool voltarAoLogin { get; private set; }
 
         public Principal()
         {
             InitializeComponent();
-            //icones do programa na barra de tarefas e na barra superior da janela
+            // icones do programa
             Icon = IdentidadeVisual.Icone;
             picLogoMenu.Image = IdentidadeVisual.LogoMenu;
+
+            // carregar itens catalogo
             dgvBrinquedos.CellContentClick += DgvBrinquedos_CellContentClick;
             dgvEventos.CellContentClick += DgvEventos_CellContentClick;
             dgvLanches.CellContentClick += DgvLanches_CellContentClick;
 
 
-            // função de estilo para arredondar bordas
+            // função de estilo
             ArredondarControle(pnlVisitanteCompra, 12);
             ArredondarControle(btnSelecionarVisitante, 8);
 
-            // chama os métodos que carregam os ingressos
+            // chama métodos carregar
             Shown += CarregarIngressosBrinquedos;
             Shown += CarregarIngressosEventos;
             Shown += CarregarLanches;
 
-            // Liga o botão Ver histórico à abertura da janela de compras.
+            // consultar compras itens
             btnVerHistorico.Click += AbrirHistoricoCompras;
 
-            // Abre a janela de seleção de visitante pelo botão da faixa da compra.
+            // selecionar visitante comprando
             btnSelecionarVisitante.Click += AbrirSelecaoVisitante;
 
-            // Abre o cadastro de visitantes pelo botão do menu lateral.
+            // CRUD visitantes
             btnVisitantes.Click += AbrirCadastroVisitantes;
 
-            // Liga o botão remover ao método que remove o item selecionado.
+            // remove item sacola
             btnRemoverItemSacola.Click += RemoverItemSacola;
 
-            // Liga o botão Finalizar compra ao método que valida os dados.
+            // finaliza compra
             btnFinalizarCompra.Click += FinalizarCompra;
 
-            // liga o botão sair
+            // logout funcionario
             btnSair.Click += SairDaSessao;
         }
 
-        // Recebe os dados do login e exibe o funcionário no rodapé do menu.
+        // dados form Login
         public Principal(int codigoFuncionario, string nomeFuncionario, string nomeCargo)
             : this()
         {
@@ -70,20 +75,20 @@ namespace ProjetoParqueCSharp.Forms
             lblCargoFuncionario.Text = nomeCargo;
         }
 
-        // Abre o histórico sobre a tela de atendimento.
+        // Abre o histórico
         private void AbrirHistoricoCompras(object? sender, EventArgs e)
         {
             using var historico = new HistoricoCompras();
             historico.ShowDialog(this);
         }
 
-        // Abre o cadastro de visitantes sobre a tela de atendimento.
+        // Abre o cadastro
         private void AbrirCadastroVisitantes(object? sender, EventArgs e)
         {
             using var cadastro = new GerenciarVisitantes();
             cadastro.ShowDialog(this);
 
-            // O código abaixo executa quando a janela de cadastro fecha.
+            // visitante nao atualiza
 
             if (codVisitanteCompra is null)
                 return;
@@ -103,14 +108,14 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // Procura o visitante que estava selecionado para a compra.
+            // Procura o visitante
             foreach (DataRow visitante in visitantes.Rows)
             {
                 int codigo = Convert.ToInt32(visitante["codVisitante"]);
 
                 if (codigo == codVisitanteCompra.Value)
                 {
-                    // Se o nome mudou no cadastro, atualiza o nome na tela.
+                    
                     lblVisitanteSelecionado.Text =
                         Convert.ToString(visitante["nomeVisitante"]) ?? "";
 
@@ -118,27 +123,28 @@ namespace ProjetoParqueCSharp.Forms
                 }
             }
 
-            // Se não encontrou o código, o visitante foi excluído.
+            // Se não encontrou
             codVisitanteCompra = null;
             lblVisitanteSelecionado.Text = "Selecione um visitante";
         }
 
-        // Abre a lista e atualiza a compra quando o funcionário confirma a escolha.
+        // Abre a lista
         private void AbrirSelecaoVisitante(object? sender, EventArgs e)
         {
             using var janela = new SelecionarVisitante();
 
-            // Se o funcionário cancelar, encerra o método antes de alterar a compra.
+            
 
             if (janela.ShowDialog(this) != DialogResult.OK)
                 return;
 
+            // dados do SelecaoVisitante
             codVisitanteCompra = janela.codVisitanteSelecionado;
             lblVisitanteSelecionado.Text = janela.nomeVisitanteSelecionado;
 
         }
 
-        // Carrega os ingressos de brinquedos
+        // Carrega os ingressos
         private void CarregarIngressosBrinquedos(object? sender, EventArgs e)
         {
             var dao = new Connection();
@@ -155,7 +161,7 @@ namespace ProjetoParqueCSharp.Forms
 
             foreach (DataRow ingresso in ingressosBrinquedos.Rows)
             {
-                // Preenche a grade na ordem do Designer e começa a quantidade em 1.
+                // Preenche a grade
                 dgvBrinquedos.Rows.Add(
                     Convert.ToString(ingresso["nomeBrinquedo"]),
                     Convert.ToString(ingresso["tipoIngresso"]),
@@ -166,13 +172,13 @@ namespace ProjetoParqueCSharp.Forms
             }
         }
 
-        // Carrega os ingressos de eventos
+        // Carrega os ingressos
         private void CarregarIngressosEventos(object? sender, EventArgs e)
         {
             var dao = new Connection();
             var ingressosEventos = dao.ListarIngressosEventos();
 
-            // Confere se as consultas retornaram as colunas esperadas.
+            // Confere se as
             if (!ingressosEventos.Columns.Contains("nomeEvento"))
             {
                 MessageBox.Show(this, "Não foi possível carregar os ingressos de evento");
@@ -183,7 +189,7 @@ namespace ProjetoParqueCSharp.Forms
 
             foreach (DataRow ingresso in ingressosEventos.Rows)
             {
-                // Preenche a grade na ordem do Designer e começa a quantidade em 1.
+                // Preenche a grade
                 dgvEventos.Rows.Add(
                     Convert.ToString(ingresso["nomeEvento"]),
                     Convert.ToString(ingresso["tipoIngresso"]),
@@ -200,7 +206,7 @@ namespace ProjetoParqueCSharp.Forms
             var dao = new Connection();
             var lanches = dao.ListarLanches();
 
-            // Confere se a consulta retornou as colunas esperadas.
+            // Confere se a
             if (!lanches.Columns.Contains("codLanche"))
             {
                 MessageBox.Show(this, $"Falha ao listar lanches.\n{dao.mensagem}");
@@ -211,7 +217,7 @@ namespace ProjetoParqueCSharp.Forms
 
             foreach (DataRow lanche in lanches.Rows)
             {
-                // Preenche a grade na ordem do Designer e começa a quantidade em 1.
+                // Preenche a grade
                 dgvLanches.Rows.Add(
                     Convert.ToString(lanche["nomeLanche"]),
                     Convert.ToString(lanche["descricao"]),
@@ -222,104 +228,109 @@ namespace ProjetoParqueCSharp.Forms
             }
         }
 
-        // Lê o ingresso da aba Brinquedos quando o funcionário clica em Adicionar.
+        // botao adicionar catalogo
         private void DgvBrinquedos_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            // Ignora cliques no cabeçalho ou em outra coluna.
+            // Ignora cliques errados
             if (e.RowIndex < 0 || e.ColumnIndex != colAdicionarBrinquedo.Index)
                 return;
 
+            // pega selecionado
             var linha = dgvBrinquedos.Rows[e.RowIndex];
             string? textoQuantidade = Convert.ToString(linha.Cells[colQtdBrinquedo.Index].Value);
 
-            // Só aceita quantidades inteiras maiores que zero.
+            // Só aceita inteiros
             if (!int.TryParse(textoQuantidade, out int quantidade) || quantidade <= 0)
             {
                 MessageBox.Show(this, "Digite uma quantidade inteira maior que zero.");
                 return;
             }
 
-            // Lê o código oculto do ingresso e os dados exibidos na linha.
+            // armazena o objeto
             int codigo = Convert.ToInt32(linha.Cells[colCodIngressoBrinquedo.Index].Value);
             decimal preco = Convert.ToDecimal(linha.Cells[colPrecoBrinquedo.Index].Value);
             string brinquedo = Convert.ToString(linha.Cells[colBrinquedo.Index].Value) ?? "";
             string tipoIngresso = Convert.ToString(
                 linha.Cells[colTipoIngressoBrinquedo.Index].Value) ?? "";
 
+            // salva na sacola
             AdicionarItemSacola(
                 "IngressoBrinquedo", codigo, $"{brinquedo} — {tipoIngresso}", preco, quantidade);
         }
 
-        // Lê o ingresso da aba Eventos quando o funcionário clica em Adicionar.
+        // Lê o ingresso
         private void DgvEventos_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            // Ignora cliques no cabeçalho ou em outra coluna.
+            // Ignora cliques
             if (e.RowIndex < 0 || e.ColumnIndex != colAdicionarEvento.Index)
                 return;
 
             var linha = dgvEventos.Rows[e.RowIndex];
             string? textoQuantidade = Convert.ToString(linha.Cells[colQtdEvento.Index].Value);
 
-            // Só aceita quantidades inteiras maiores que zero.
+            // Só aceita inteiros
             if (!int.TryParse(textoQuantidade, out int quantidade) || quantidade <= 0)
             {
                 MessageBox.Show(this, "Digite uma quantidade inteira maior que zero.");
                 return;
             }
 
-            // Lê o código oculto do ingresso e os dados exibidos na linha.
+            // Lê o objeto
             int codigo = Convert.ToInt32(linha.Cells[colCodIngressoEvento.Index].Value);
             decimal preco = Convert.ToDecimal(linha.Cells[colPrecoEvento.Index].Value);
             string evento = Convert.ToString(linha.Cells[colEvento.Index].Value) ?? "";
             string tipoIngresso = Convert.ToString(
                 linha.Cells[colTipoIngressoEvento.Index].Value) ?? "";
 
+            // add obj list
             AdicionarItemSacola(
                 "IngressoEvento", codigo, $"{evento} — {tipoIngresso}", preco, quantidade);
         }
 
-        // Lê o lanche da aba Lanches quando o funcionário clica em Adicionar.
+        // Lê o lanche
         private void DgvLanches_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            // Ignora cliques no cabeçalho ou em outra coluna.
+            // Ignora cliques 
             if (e.RowIndex < 0 || e.ColumnIndex != colAdicionarLanche.Index)
                 return;
 
             var linha = dgvLanches.Rows[e.RowIndex];
             string? textoQuantidade = Convert.ToString(linha.Cells[colQtdLanche.Index].Value);
 
-            // Só aceita quantidades inteiras maiores que zero.
+            // Só aceita inteiros
             if (!int.TryParse(textoQuantidade, out int quantidade) || quantidade <= 0)
             {
                 MessageBox.Show(this, "Digite uma quantidade inteira maior que zero.");
                 return;
             }
 
-            // Lê o código oculto do lanche e os dados exibidos na linha.
+            // Lê o obj
             int codigo = Convert.ToInt32(linha.Cells[colCodLanche.Index].Value);
             decimal preco = Convert.ToDecimal(linha.Cells[colPrecoLanche.Index].Value);
             string lanche = Convert.ToString(linha.Cells[colLanche.Index].Value) ?? "";
 
+            // add obj list
             AdicionarItemSacola("Lanche", codigo, lanche, preco, quantidade);
         }
 
-        // Adiciona um novo item ou soma a quantidade a um item que já está na sacola.
+        // coloca item sacola
         private void AdicionarItemSacola(
             string tipo, int codigo, string descricao, decimal preco, int quantidade)
         {
             ItemSacola? item = null;
 
-            // Procura pelo tipo e pelo código, pois abas diferentes podem ter códigos iguais.
+            // Procura tipo e codigo
             foreach (ItemSacola existente in sacola.itens)
             {
                 if (existente.tipoItem == tipo && existente.codItem == codigo)
                 {
+                    // caso item inserido
                     item = existente;
                     break;
                 }
             }
 
-            // Se a busca não encontrou o item, cria e guarda um novo.
+            // caso item novo
             if (item is null)
             {
                 item = new ItemSacola
@@ -333,40 +344,40 @@ namespace ProjetoParqueCSharp.Forms
                 sacola.itens.Add(item);
             }
 
-            // Atualiza a quantidade, calcula o subtotal e mostra o resultado na tela.
+            // Atualiza a quantidade
             item.quantidade += quantidade;
             item.subtotal = item.quantidade * item.valorUnitario;
             AtualizarSacola();
         }
 
-        // Preenche a grade da sacola e calcula o total da compra.
+        // Preenche a grade
         private void AtualizarSacola()
         {
             var cultura = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
             decimal total = 0m;
 
-            // Limpa somente as linhas exibidas. Os itens continuam em sacola.itens.
+     
             dgvSacola.Rows.Clear();
 
             foreach (ItemSacola item in sacola.itens)
             {
-                // C2 exibe o subtotal como moeda, com duas casas decimais.
-                // Exibe os dados do item na grade e pega o índice da linha criada.
+                // Exibe dados sacola
                 int indice = dgvSacola.Rows.Add(
                     item.descricaoItem,
                     item.quantidade,
                     item.subtotal.ToString("C2", cultura));
 
-                // Guarda o objeto da sacola na linha para saber qual item remover.
-                dgvSacola.Rows[indice].Tag = item; ;
+                // pega o objeto
+                dgvSacola.Rows[indice].Tag = item;
 
+                // faz calculo total
                 total += item.subtotal;
             }
 
             lblTotalSacola.Text = $"Total: {total.ToString("C2", cultura)}";
         }
 
-        // remove da sacola um item selecionado
+        // remove da sacola
         private void RemoverItemSacola(object? sender, EventArgs e)
         {
             if (dgvSacola.SelectedRows.Count == 0)
@@ -375,7 +386,7 @@ namespace ProjetoParqueCSharp.Forms
                 return;
             }
 
-            // pega o item guardado no tag da linha
+            // pega o item
             if (dgvSacola.SelectedRows[0].Tag is ItemSacola item)
             {
                 sacola.itens.Remove(item);
@@ -388,35 +399,35 @@ namespace ProjetoParqueCSharp.Forms
         private void FinalizarCompra(object? sender, EventArgs e)
         {
 
-            // validando se visitante está selecionado
+            // validando visitante
             if (codVisitanteCompra is null)
             {
                 MessageBox.Show(this, "Selecione um visitante para a compra.");
                 return;
             }
 
-            // validando se possui itens na sacola
+            // validando sacola nula
             if (sacola.itens.Count == 0)
             {
                 MessageBox.Show(this, "Adicione pelo menos um item à sacola.");
                 return;
             }
 
-            // validando forma (tipo) de pagamento
+            // validando forma pagamento
             if (cbxFormaPagamento.SelectedItem is not string formaPagamento)
             {
                 MessageBox.Show(this, "Selecione a forma de pagamento.");
                 return;
             }
 
-            // última revisão para confirmar compra
+            // última revisão messagebox
             string revisao = $"""
                 Visitante: {lblVisitanteSelecionado.Text}
                 Pagamento: {formaPagamento}
                 {lblTotalSacola.Text}
                 """;
 
-            // Pede confirmação antes de enviar a compra ao banco.
+            // Pede confirmação antes
             var resposta = MessageBox.Show(
                 this, revisao, "Confirmar compra",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
@@ -425,7 +436,7 @@ namespace ProjetoParqueCSharp.Forms
             if (resposta != DialogResult.Yes)
                 return;
 
-            // Monta a compra com o visitante escolhido e o funcionário da sessão.
+            // Monta a compra
             var compra = new Compra
             {
                 codVisitante = codVisitanteCompra.Value,
@@ -436,14 +447,14 @@ namespace ProjetoParqueCSharp.Forms
             var dao = new Connection();
             int codigoCompra = dao.GravarCompra(compra, sacola);
 
-            // Se houver erro, mantém a sacola na tela para o funcionário corrigir.
+            // Se houver erro
             if (codigoCompra == 0)
             {
                 MessageBox.Show(this, dao.mensagem, "Erro ao gravar compra");
                 return;
             }
 
-            // Prepara a tela para a próxima compra após a gravação confirmada.
+            // Prepara nova compra
             sacola.itens.Clear();
             codVisitanteCompra = null;
             lblVisitanteSelecionado.Text = "Nenhum visitante selecionado";
@@ -481,7 +492,7 @@ namespace ProjetoParqueCSharp.Forms
         // método para sair
         private void SairDaSessao(object? sender, EventArgs e)
         {
-            // Se houver uma compra em andamento, confirma antes de descartá-la.
+            // compra em andamento
             if (codVisitanteCompra.HasValue || sacola.itens.Count > 0)
             {
                 var resposta = MessageBox.Show(
